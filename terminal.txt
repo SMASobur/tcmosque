@@ -1,0 +1,58 @@
+npm init -y
+
+npm i express mongoose dotenv
+// express for webframwork to build API and routing system
+// mongoose: interact with the database (mongoDB)
+// dotenv: Acces the environment variable
+
+
+in package.json add "type": "module", for modern js syntex 
+
+npm i nodemon -D
+// for dev devDependencies for instant refresh the code
+
+
+cd. /frontend
+npm create vite@latest .
+// select React and JavaScript
+npm i 
+
+//Install Chakra ui dependencies
+//chakra vite version 2
+npm i @chakra-ui/react@2 @emotion/react @emotion/styled framer-motion
+// and import chakraProvider
+
+
+//Router Dom Install
+npm i react-router-dom
+// wrap <App />  with <BrowserRouter> and import it
+
+//Chakra icons
+npm i @chakra-ui/icons
+or 
+npm i react-icons
+
+
+
+// package zustand installation
+npm i zustand
+
+
+//for deployment 
+//https://www.youtube.com/watch?v=O3BUHwfHf84&t=7449s
+// 2:00:00 time 
+
+
+//when building and brinnging together frontend and backend
+npm uninstall express
+npm install express@4.18.2 path-to-regexp@6.2.1
+
+
+// for project tree
+tree -I "node_modules|.git|dist|out" -L 3 > project-tree.txt
+
+//for select search 
+npm install react-select
+
+//for structure .tex
+tree -I "node_modules|.git" -L 3 > structure.txt

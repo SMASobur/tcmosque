@@ -1,0 +1,51 @@
+.
+├── backend
+│   ├── config
+│   │   └── db.js
+│   ├── controllers
+│   │   ├── admin.controller.js
+│   │   ├── auth.controller.js
+│   │   ├── book.controller.js
+│   │   ├── product.controller.js
+│   │   └── school
+│   ├── middleware
+│   │   └── auth.middleware.js
+│   ├── models
+│   │   ├── book.model.js
+│   │   ├── product.model.js
+│   │   ├── school
+│   │   └── user.model.js
+│   ├── routes
+│   │   ├── admin.route.js
+│   │   ├── auth.route.js
+│   │   ├── book.route.js
+│   │   ├── product.route.js
+│   │   └── school
+│   └── server.js
+├── frontend
+│   ├── dist
+│   │   ├── assets
+│   │   ├── index.html
+│   │   └── vite.svg
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── public
+│   │   ├── fav.png
+│   │   └── vite.svg
+│   ├── README.md
+│   ├── src
+│   │   ├── App.jsx
+│   │   ├── components
+│   │   ├── context
+│   │   ├── index.css
+│   │   ├── main.jsx
+│   │   ├── pages
+│   │   ├── store
+│   │   └── utils
+│   ├── tailwind.config.js
+│   └── vite.config.js
+├── package-lock.json
+├── package.json
