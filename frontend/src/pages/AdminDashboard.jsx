@@ -210,7 +210,6 @@ const AdminDashboard = () => {
                   Email
                 </th>
                 <th className="border border-gray-300 p-2 rounded">Role</th>
-                <th className="border border-gray-300 p-2 rounded">Books</th>
                 {user.role === "superadmin" && (
                   <th className="border border-gray-300 p-2 rounded">✂️</th>
                 )}
@@ -260,14 +259,7 @@ const AdminDashboard = () => {
                       )}
                     </select>
                   </td>
-                  <td className="border border-gray-300 text-center">
-                    <Link
-                      to={`/user-books/${u._id}`}
-                      className="text-orange-400 hover:underline"
-                    >
-                      View
-                    </Link>
-                  </td>
+
                   {user.role === "superadmin" && u._id !== user._id && (
                     <td className="border border-gray-300 text-center">
                       <button

@@ -8,7 +8,6 @@ import AboutPage from "./pages/AboutPage";
 import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import UserBooks from "./pages/UserBooks";
 import AdminDashboard from "./pages/AdminDashboard";
 import ProfilePage from "./pages/ProfilePage";
 import DonorPage from "./pages/DonorPage";
@@ -29,7 +28,6 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/cards" element={<StoreCardView />} />
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/user-books/:userId" element={<UserBooks />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/donors/:id" element={<DonorPage />} />
           <Route path="/categories/:id" element={<ExpensePage />} />

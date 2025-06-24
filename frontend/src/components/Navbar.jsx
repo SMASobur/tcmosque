@@ -62,7 +62,6 @@ const Navbar = () => {
           <Box
             fontSize={{ base: "22", sm: "38" }}
             fontWeight={"bold"}
-            textTransform={"uppercase"}
             textAlign={"center"}
             bgGradient={"linear(to-r, orange.400, yellow.400)"}
             bgClip={"text"}
@@ -82,7 +81,7 @@ const Navbar = () => {
                   alt="Logo"
                   mx={2}
                 />
-                KnitNox
+                Baitun Noor
                 {/* Admin/Superadmin badge */}
                 {user?.role === "admin" && (
                   <span className="ml-2 text-xs bg-orange-500 text-white px-2 py-0.5 rounded">
@@ -115,7 +114,10 @@ const Navbar = () => {
               </RouterLink> */}
 
               <RouterLink to="/">
-                <Button>🏫 Mosque</Button>
+                <Button>🕌 Mosque</Button>
+              </RouterLink>
+              <RouterLink to="/cards">
+                <Button>🖼️ Gallery</Button>
               </RouterLink>
 
               <Box ml="auto">

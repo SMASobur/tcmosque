@@ -238,13 +238,6 @@ const ProfilePage = () => {
           {profile.role.charAt(0).toUpperCase() + profile.role.slice(1)} |
           Joined on {new Date(profile.joinedAt).toLocaleDateString()}
         </Text>
-        <Button
-          colorScheme="yellow"
-          mt={4}
-          onClick={() => navigate("/my-books")}
-        >
-          📚 View My Books
-        </Button>
       </Flex>
 
       {/* Profile Form */}

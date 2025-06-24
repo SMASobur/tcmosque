@@ -95,10 +95,10 @@ const SchoolPage = () => {
       <Heading
         textAlign="center"
         color={useColorModeValue("teal.600", "teal.300")}
-        mb={6}
+        mb={12}
         size={isMobile ? "lg" : "xl"}
       >
-        School Financial Records
+        বাইতুন নূর জামে মসজিদ
       </Heading>
 
       {/* Summary Cards */}
