@@ -75,7 +75,7 @@ const Navbar = () => {
                 justifyContent="center"
               >
                 <Image
-                  boxSize={{ base: "40px", sm: "50px" }}
+                  boxSize={{ base: "50px", sm: "70px" }}
                   objectFit="cover"
                   src="/fav.png"
                   alt="Logo"

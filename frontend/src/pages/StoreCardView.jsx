@@ -47,7 +47,7 @@ const StoreCardView = () => {
             bgClip={"text"}
             textAlign={"left"}
           >
-            Current Products
+            Photo Gallery
           </Text>
           {user && (
             <Button
@@ -97,16 +97,18 @@ const StoreCardView = () => {
               fontWeight="bold"
               color="gray.500"
             >
-              No products found 😢{" "}
-              <Link to={"/create"}>
-                <Text
-                  as="span"
-                  color="blue.500"
-                  _hover={{ textDecoration: "underline" }}
-                >
-                  Create a product
-                </Text>
-              </Link>
+              No photos found 😢{" "}
+              {user && (
+                <Link onClick={onOpen}>
+                  <Text
+                    as="span"
+                    color="blue.500"
+                    _hover={{ textDecoration: "underline" }}
+                  >
+                    Add a photo.
+                  </Text>
+                </Link>
+              )}
             </Text>
           )}
         </VStack>

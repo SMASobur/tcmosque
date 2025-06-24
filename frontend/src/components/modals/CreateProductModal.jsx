@@ -23,7 +23,6 @@ const CreateProductModal = ({ isOpen, onClose, onCreate }) => {
   const toast = useToast();
   const [newProduct, setNewProduct] = useState({
     name: "",
-    price: "",
     image: "",
     createdBy: "",
   });
@@ -35,7 +34,7 @@ const CreateProductModal = ({ isOpen, onClose, onCreate }) => {
   };
 
   const handleSubmit = async () => {
-    if (!newProduct.name || !newProduct.price || !newProduct.image) {
+    if (!newProduct.name || !newProduct.image) {
       toast({
         title: "Error",
         description: "Please fill all fields",
@@ -58,7 +57,7 @@ const CreateProductModal = ({ isOpen, onClose, onCreate }) => {
 
       await onCreate(productWithCreator);
 
-      setNewProduct({ name: "", price: "", image: "" });
+      setNewProduct({ name: "", image: "" });
       onClose();
     } catch (error) {
       toast({
@@ -84,30 +83,21 @@ const CreateProductModal = ({ isOpen, onClose, onCreate }) => {
     <Modal isOpen={isOpen} onClose={onClose} initialFocusRef={initialRef}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Create New Product</ModalHeader>
+        <ModalHeader> Add new image</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <VStack spacing={4}>
             <FormControl>
-              <FormLabel>Product Name</FormLabel>
+              <FormLabel>Image Title</FormLabel>
               <Input
                 ref={initialRef}
                 name="name"
                 value={newProduct.name}
                 onChange={handleChange}
-                placeholder="Enter product name"
+                placeholder="Enter image title"
               />
             </FormControl>
-            <FormControl>
-              <FormLabel>Price</FormLabel>
-              <Input
-                name="price"
-                type="number"
-                value={newProduct.price}
-                onChange={handleChange}
-                placeholder="Enter price"
-              />
-            </FormControl>
+
             <FormControl>
               <FormLabel>Image URL</FormLabel>
               <Input

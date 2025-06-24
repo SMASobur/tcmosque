@@ -97,9 +97,6 @@ const ProductCard = ({ product }) => {
           {product.name}
         </Heading>
 
-        <Text fontWeight="bold" fontSize="xl" color={textColor} mb={4}>
-          ৳{product.price}
-        </Text>
         {user && (
           <HStack spacing={2}>
             <IconButton
