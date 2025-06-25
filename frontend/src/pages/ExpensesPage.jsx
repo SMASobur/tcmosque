@@ -284,7 +284,12 @@ const ExpensesPage = () => {
                     <Link
                       href={`/categories/${category._id}`}
                       color={linkColor}
-                      _hover={{ color: linkHoverColor }}
+                      fontWeight="medium"
+                      textDecoration="underline"
+                      _hover={{
+                        color: linkHoverColor,
+                        textDecoration: "underline",
+                      }}
                     >
                       {category.name}
                     </Link>

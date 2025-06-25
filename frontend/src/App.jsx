@@ -14,6 +14,7 @@ import DonorPage from "./pages/DonorPage";
 import ExpensePage from "./pages/ExpensePage";
 import DonationPage from "./pages/DonationPage";
 import ExpensesPage from "./pages/ExpensesPage";
+import FinancePage from "./pages/FinancePage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/categories/:id" element={<ExpensePage />} />
           <Route path="/donations" element={<DonationPage />} />
           <Route path="/expenses" element={<ExpensesPage />} />
+          <Route path="/finance" element={<FinancePage />} />
 
           {/* Private Routes */}
 

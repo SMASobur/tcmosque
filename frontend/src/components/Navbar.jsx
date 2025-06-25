@@ -113,12 +113,12 @@ const Navbar = () => {
                 </Button>
               </RouterLink> */}
 
-              <RouterLink to="/">
-                <Button>🕌 Mosque</Button>
+              <RouterLink to="/finance">
+                <Button>🕌 Masjid Finance</Button>
               </RouterLink>
-              <RouterLink to="/cards">
+              {/* <RouterLink to="/cards">
                 <Button>🖼️ Gallery</Button>
-              </RouterLink>
+              </RouterLink> */}
 
               <Box ml="auto">
                 <ColorModeToggle />

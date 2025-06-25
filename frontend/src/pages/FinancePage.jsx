@@ -20,11 +20,14 @@ import {
   CardBody,
   Icon,
   Link,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
   Image,
   Stack,
-  CardHeader,
-  CardFooter,
-  Flex,
 } from "@chakra-ui/react";
 import { useAuth } from "../context/AuthContext";
 
@@ -105,49 +108,16 @@ const SchoolPage = () => {
         p={isMobile ? 4 : 6} // Responsive padding
         mb={4}
       >
-        {/* Mosque Image (centered on mobile) */}
-        <Image
-          src="fav.png"
-          alt="Mosque Construction Progress"
-          objectFit="cover"
-          width={isMobile ? "200px" : "300px"} // Smaller on mobile
-          height={isMobile ? "200px" : "300px"}
-          borderRadius="md"
-          boxShadow="sm"
-        />
-
         {/* Mosque Details (stacked vertically) */}
         <Stack spacing={isMobile ? 2 : 3}>
           <Heading
             as="b"
-            fontSize={isMobile ? "3xl" : "5xl"} // Smaller on mobile
+            fontSize={isMobile ? "2xl" : "4xl"} // Smaller on mobile
             color={useColorModeValue("orange.500", "orange.300")}
             lineHeight="shorter"
           >
-            বাইতুন নূর জামে মসজিদ
+            Financial Overview
           </Heading>
-
-          <Text
-            fontSize={isMobile ? "xl" : "3xl"} // Responsive font size
-            color={useColorModeValue("gray.700", "gray.200")}
-          >
-            তিলকচাঁন পুর (কেন্দ্রীয় মসজিদ)
-          </Text>
-
-          <Text
-            fontSize={isMobile ? "lg" : "2xl"}
-            color={useColorModeValue("gray.600", "gray.300")}
-          >
-            বালাগঞ্জ, সিলেট।
-          </Text>
-
-          <Text
-            fontSize={isMobile ? "md" : "xl"}
-            color={useColorModeValue("gray.500", "gray.300")}
-            fontStyle="italic"
-          >
-            স্থাপিত: ১৯৮৬
-          </Text>
         </Stack>
       </Box>
 
@@ -243,50 +213,104 @@ const SchoolPage = () => {
       </SimpleGrid>
 
       {/* Financial Charts */}
-      <Card bg={cardBg} p={4} mb={6}>
-        <Flex
-          direction={{ base: "column", md: "row" }}
-          w="100%"
-          h="100%"
-          gap={0}
-          align="stretch"
-        >
-          {/* Top 5 Donors */}
-          <Box flex={1} p={4}>
-            <Heading
-              size="sm"
-              mb={4}
-              color={useColorModeValue("gray.800", "whiteAlpha.900")}
-            >
-              Top 5 Donors
-            </Heading>
-            <Bar
+      <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={6}>
+        {/* Donations vs Expenses Comparison */}
+        <Card bg={cardBg} p={4}>
+          <Heading
+            size="sm"
+            mb={4}
+            color={useColorModeValue("gray.800", "whiteAlpha.900")}
+          >
+            Donations vs Expenses
+          </Heading>
+          <Bar
+            data={{
+              labels: ["Total"],
+              datasets: [
+                {
+                  label: "Donations",
+                  data: [totalDonations],
+                  backgroundColor: "#38A169",
+                },
+                {
+                  label: "Expenses",
+                  data: [totalExpenses],
+                  backgroundColor: "#E53E3E",
+                },
+              ],
+            }}
+            options={{
+              responsive: true,
+              plugins: {
+                legend: {
+                  labels: {
+                    color: useColorModeValue("#000", "#FFF"),
+                  },
+                },
+              },
+              scales: {
+                x: {
+                  ticks: {
+                    color: useColorModeValue("#000", "#FFF"),
+                  },
+                  grid: {
+                    color: useColorModeValue(
+                      "rgba(0,0,0,0.1)",
+                      "rgba(255,255,255,0.1)"
+                    ), // Grid lines
+                  },
+                },
+                y: {
+                  ticks: {
+                    color: useColorModeValue("#000", "#FFF"),
+                  },
+                  grid: {
+                    color: useColorModeValue(
+                      "rgba(0,0,0,0.1)",
+                      "rgba(255,255,255,0.1)"
+                    ), // Grid lines
+                  },
+                },
+              },
+            }}
+          />
+        </Card>
+
+        {/* Expense Categories */}
+        <Card bg={cardBg} p={4}>
+          <Heading
+            size="sm"
+            mb={4}
+            color={useColorModeValue("gray.800", "whiteAlpha.900")}
+          >
+            Expense Categories
+          </Heading>
+          <Box height="250px">
+            <Pie
               data={{
-                labels: topDonors.map((item) => item.donor.name),
+                labels: getExpensesByCategory().map(
+                  (item) => item.category.name
+                ),
                 datasets: [
                   {
-                    label: "Amount",
-                    data: topDonors.map((item) => item.total),
-                    backgroundColor: "#4299E1",
+                    data: getExpensesByCategory().map((item) => item.total),
+                    backgroundColor: [
+                      "#DD6B20",
+                      "#3182CE",
+                      "#805AD5",
+                      "#D53F8C",
+                      "#0BC5EA",
+                    ],
                   },
                 ],
               }}
               options={{
-                indexAxis: "y",
                 responsive: true,
+                maintainAspectRatio: false,
                 plugins: {
                   legend: {
-                    display: false,
-                  },
-                },
-                scales: {
-                  x: {
-                    ticks: {
-                      color: useColorModeValue("#000", "#FFF"),
-                    },
-                  },
-                  y: {
-                    ticks: {
+                    position: "right",
+                    labels: {
                       color: useColorModeValue("#000", "#FFF"),
                     },
                   },
@@ -294,85 +318,141 @@ const SchoolPage = () => {
               }}
             />
           </Box>
+        </Card>
 
-          {/* Finance Summary Image */}
-          <Box
-            flex={1}
-            p={4}
-            borderLeft={{ base: "none", md: "1px solid" }}
-            borderTop={{ base: "1px solid", md: "none" }}
-            borderColor={useColorModeValue("gray.200", "gray.600")}
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            justifyContent="center"
-            textAlign="center"
+        {/* Top 5 Donors */}
+        <Card bg={cardBg} p={4} mb={6}>
+          <Heading
+            size="sm"
+            mb={4}
+            color={useColorModeValue("gray.800", "whiteAlpha.900")}
           >
-            <Heading
-              size="sm"
-              mb={4}
-              color={useColorModeValue("gray.800", "whiteAlpha.900")}
-            >
-              Finance
-            </Heading>
-            <Image
-              src="fav1.png"
-              alt="Mosque Construction Progress"
-              objectFit="cover"
-              width="200px"
-              height="200px"
-              mb={4}
-            />
-            <Text mb={2}>View a summary of all financial transactions.</Text>
+            Top 5 Donors
+          </Heading>
+          <Bar
+            data={{
+              labels: topDonors.map((item) => item.donor.name),
+              datasets: [
+                {
+                  label: "Amount",
+                  data: topDonors.map((item) => item.total),
+                  backgroundColor: "#4299E1",
+                },
+              ],
+            }}
+            options={{
+              indexAxis: "y",
+              responsive: true,
+              plugins: {
+                legend: {
+                  display: false,
+                },
+              },
+              scales: {
+                x: {
+                  ticks: {
+                    color: useColorModeValue("#000", "#FFF"),
+                  },
+                },
+                y: {
+                  ticks: {
+                    color: useColorModeValue("#000", "#FFF"),
+                  },
+                },
+              },
+            }}
+          />
+        </Card>
+        {/* Most 5 recent donor */}
+        <Card
+          bg={cardBg}
+          border="1px"
+          borderColor={borderColor}
+          shadow="md"
+          p={4}
+          mb={6}
+        >
+          <Heading
+            size="sm"
+            mb={6}
+            color={useColorModeValue("gray.800", "whiteAlpha.900")}
+          >
+            Recent Donations
+          </Heading>
+          <Box
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+            borderColor={borderColor}
+          >
+            <Table variant="simple" size="sm">
+              <Thead bg={useColorModeValue("gray.100", "gray.700")}>
+                <Tr>
+                  <Th color={textColor}>Donor</Th>
+                  <Th color={textColor} isNumeric>
+                    Amount
+                  </Th>
+                  <Th color={textColor}>Date</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {donations
+                  .sort((a, b) => new Date(b.date) - new Date(a.date))
+                  .slice(0, 7)
+                  .map((donation, index) => {
+                    const donor = donors.find((d) => d.id === donation.donorId);
+                    return (
+                      <Tr
+                        key={donation.id}
+                        bg={
+                          index % 2 === 0
+                            ? useColorModeValue("gray.50", "gray.00")
+                            : "transparent"
+                        }
+                        _hover={{
+                          bg: useColorModeValue("gray.100", "gray.700"),
+                        }}
+                      >
+                        <Td color={textColor}>{donor?.name || "Unknown"}</Td>
+                        <Td color={textColor} isNumeric>
+                          <Box as="span" fontWeight="medium">
+                            ৳ {donation.amount.toLocaleString()}
+                          </Box>
+                        </Td>
+                        <Td color={textColor}>
+                          <Box
+                            as="span"
+                            fontSize="sm"
+                            color={useColorModeValue("gray.600", "gray.400")}
+                          >
+                            {new Date(donation.date).toLocaleDateString()}
+                          </Box>
+                        </Td>
+                      </Tr>
+                    );
+                  })}
+              </Tbody>
+            </Table>
+          </Box>
+          {donations.length > 7 && (
             <Link
               as={RouterLink}
-              to="/finance"
-              color={useColorModeValue("teal.500", "teal.300")}
+              to="/donations"
+              color={useColorModeValue("teal.600", "teal.300")}
+              mt={2}
               fontWeight="medium"
+              fontSize="sm"
+              display="block"
+              textAlign="right"
+              _hover={{
+                textDecoration: "underline",
+              }}
             >
-              View
+              View All
             </Link>
-          </Box>
-        </Flex>
-      </Card>
-
-      <Card bg={cardBg} p={4}>
-        <Heading
-          size="sm"
-          mb={4}
-          color={useColorModeValue("gray.800", "whiteAlpha.900")}
-        >
-          Mosque 3D Images
-        </Heading>
-        <Flex
-          alignItems={"center"}
-          justifyContent={{
-            base: "center",
-            sm: "space-between",
-          }}
-          flexDir={{
-            base: "column",
-            sm: "row",
-          }}
-          gap={{ base: 4, sm: 0 }}
-        >
-          <Image
-            src="fav.png" // Replace with your actual image URL
-            alt="Mosque Construction Progress"
-            objectFit="cover"
-            width="200px"
-            height="200px"
-          />
-
-          <Image
-            src="fav1.png" // Replace with your actual image URL
-            alt="Mosque Construction Progress"
-            objectFit="cover"
-            width="250px"
-            height="200px"
-          />
-        </Flex>
-      </Card>
+          )}
+        </Card>
+      </SimpleGrid>
     </Box>
   );
 };

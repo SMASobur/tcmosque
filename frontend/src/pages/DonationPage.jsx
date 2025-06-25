@@ -276,7 +276,12 @@ const DonationPage = () => {
                     <Link
                       href={`/donors/${donor.id}`}
                       color={linkColor}
-                      _hover={{ color: linkHoverColor }}
+                      fontWeight="medium"
+                      textDecoration="underline"
+                      _hover={{
+                        color: linkHoverColor,
+                        textDecoration: "underline",
+                      }}
                     >
                       {donor.name}
                     </Link>
