@@ -22,9 +22,13 @@ import {
   Link,
   Image,
   Stack,
-  CardHeader,
-  CardFooter,
   Flex,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
 } from "@chakra-ui/react";
 import { useAuth } from "../context/AuthContext";
 
@@ -251,48 +255,73 @@ const SchoolPage = () => {
           gap={0}
           align="stretch"
         >
-          {/* Top 5 Donors */}
+          {/* most  5 recent Donors */}
           <Box flex={1} p={4}>
             <Heading
               size="sm"
               mb={4}
+              textAlign="center"
               color={useColorModeValue("gray.800", "whiteAlpha.900")}
             >
-              Top 5 Donors
+              Most recent Donors
             </Heading>
-            <Bar
-              data={{
-                labels: topDonors.map((item) => item.donor.name),
-                datasets: [
-                  {
-                    label: "Amount",
-                    data: topDonors.map((item) => item.total),
-                    backgroundColor: "#4299E1",
-                  },
-                ],
-              }}
-              options={{
-                indexAxis: "y",
-                responsive: true,
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                },
-                scales: {
-                  x: {
-                    ticks: {
-                      color: useColorModeValue("#000", "#FFF"),
-                    },
-                  },
-                  y: {
-                    ticks: {
-                      color: useColorModeValue("#000", "#FFF"),
-                    },
-                  },
-                },
-              }}
-            />
+            <Box
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+              borderColor={borderColor}
+            >
+              <Table variant="simple" size="sm">
+                <Thead bg={useColorModeValue("gray.100", "gray.700")}>
+                  <Tr>
+                    <Th color={textColor}>Donor</Th>
+                    <Th color={textColor} isNumeric>
+                      Amount
+                    </Th>
+                    <Th color={textColor}>Date</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {donations
+                    .sort((a, b) => new Date(b.date) - new Date(a.date))
+                    .slice(0, 7)
+                    .map((donation, index) => {
+                      const donor = donors.find(
+                        (d) => d.id === donation.donorId
+                      );
+                      return (
+                        <Tr
+                          key={donation.id}
+                          bg={
+                            index % 2 === 0
+                              ? useColorModeValue("gray.50", "gray.00")
+                              : "transparent"
+                          }
+                          _hover={{
+                            bg: useColorModeValue("gray.100", "gray.700"),
+                          }}
+                        >
+                          <Td color={textColor}>{donor?.name || "Unknown"}</Td>
+                          <Td color={textColor} isNumeric>
+                            <Box as="span" fontWeight="medium">
+                              ৳ {donation.amount.toLocaleString()}
+                            </Box>
+                          </Td>
+                          <Td color={textColor}>
+                            <Box
+                              as="span"
+                              fontSize="sm"
+                              color={useColorModeValue("gray.600", "gray.400")}
+                            >
+                              {new Date(donation.date).toLocaleDateString()}
+                            </Box>
+                          </Td>
+                        </Tr>
+                      );
+                    })}
+                </Tbody>
+              </Table>
+            </Box>
           </Box>
 
           {/* Finance Summary Image */}

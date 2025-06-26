@@ -159,7 +159,7 @@ const Navbar = () => {
                 <RouterLink to="/login">
                   <Tooltip label="Login">
                     <Button>
-                      <CiLogin />
+                      <CiLogin /> Sign in
                     </Button>
                   </Tooltip>
                 </RouterLink>

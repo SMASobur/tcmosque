@@ -6,7 +6,6 @@ import { fileURLToPath } from "url";
 import { connectDB } from "./config/db.js";
 
 import productRoutes from "./routes/product.route.js";
-import bookRoutes from "./routes/book.route.js";
 import authRoutes from "./routes/auth.route.js";
 import adminRoutes from "./routes/admin.route.js";
 import schoolRoutes from "./routes/school/school.route.js";
@@ -22,7 +21,6 @@ const __dirname = path.dirname(__filename);
 app.use(express.json()); // allows us to accept JSON data in the req.body
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
-app.use("/api/books", bookRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/school", schoolRoutes);
 
