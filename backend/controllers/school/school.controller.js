@@ -5,7 +5,7 @@ import { ExpenseCategory } from "../../models/school/expenseCategory.model.js";
 
 // Get all donors
 export const getDonors = async (req, res) => {
-  const donors = await Donor.find();
+  const donors = await Donor.find().lean();
   res.json(donors);
 };
 

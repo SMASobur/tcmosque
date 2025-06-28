@@ -99,16 +99,16 @@ export const AddExpenseModal = ({
               <FormLabel color={textColor}>Category</FormLabel>
               <Select
                 options={expenseCategories.map((cat) => ({
-                  value: cat.id,
+                  value: cat._id,
                   label: cat.name,
                 }))}
                 placeholder="Select category"
                 value={
-                  expenseCategories.find((c) => c.id === selectedCategoryId)
+                  expenseCategories.find((c) => c._id === selectedCategoryId)
                     ? {
                         value: selectedCategoryId,
                         label: expenseCategories.find(
-                          (c) => c.id === selectedCategoryId
+                          (c) => c._id === selectedCategoryId
                         ).name,
                       }
                     : null

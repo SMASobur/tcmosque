@@ -24,7 +24,7 @@ router.get("/donors", getDonors);
 router.post("/donors", createDonor);
 router.delete("/donors/:id", deleteDonor);
 
-router.get("/donations", getDonations, createDonation);
+router.get("/donations", getDonations);
 router.post("/donations", createDonation);
 router.delete("/donations/:id", deleteDonation);
 

@@ -26,12 +26,11 @@ import {
   Link,
   Input,
 } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
 import { AddExpenseModal } from "../components/modals/school/AddExpenseModal";
 import { AddCategoryModal } from "../components/modals/school/AddCategoryModal";
 import { useAuth } from "../context/AuthContext";
 
-const ExpensesPage = () => {
+const ExpensesDetailsPage = () => {
   const { colorMode } = useColorMode();
   const bgColor = useColorModeValue("gray.50", "gray.500");
   const cardBg = useColorModeValue("white", "gray.600");
@@ -186,64 +185,11 @@ const ExpensesPage = () => {
         mb={6}
         size={isMobile ? "lg" : "xl"}
       >
-        Expense Management
+        Expense Details
       </Heading>
-
-      {/* Summary Cards */}
-      <SimpleGrid columns={{ base: 1, sm: 2 }} spacing={4} mb={6}>
-        <Card bg={cardBg} border="1px" borderColor={borderColor}>
-          <CardBody textAlign="center">
-            <GiExpense
-              size="2em"
-              color={useColorModeValue("#E53E3E", "#FC8181")}
-            />
-            <Text fontSize="sm" color={textColor} mt={2}>
-              Total Expenses
-            </Text>
-
-            <Heading size="md" color={useColorModeValue("red.500", "red.300")}>
-              ৳{totalExpenses.toLocaleString()}
-            </Heading>
-
-            <Text
-              fontSize="xs"
-              color={useColorModeValue("gray.500", "gray.400")}
-            >
-              {expenses.length} transactions
-            </Text>
-          </CardBody>
-        </Card>
-
-        <Card bg={cardBg} border="1px" borderColor={borderColor}>
-          <CardBody textAlign="center">
-            <Icon as={MdCategory} w="2em" h="2em" />
-            <Text fontSize="sm" color={textColor} mt={2}>
-              Total Categories
-            </Text>
-            <Heading size="md" color="teal.500">
-              {expenseCategories.length}
-            </Heading>
-            <Text
-              fontSize="xs"
-              color={useColorModeValue("gray.500", "gray.400")}
-            >
-              Expense categories
-            </Text>
-          </CardBody>
-        </Card>
-      </SimpleGrid>
-
+      Will work more after
       {/* Expenses Table */}
       <Box p="4" bg={cardBg} borderRadius="md" boxShadow="md">
-        <Button
-          as={RouterLink}
-          to="/expenses-details"
-          colorScheme="teal"
-          size="md"
-          mt={4}
-        >
-          Details
-        </Button>
         {(user?.role === "admin" || user?.role === "superadmin") && (
           // <Flex justifyContent="center" gap={4} mb={8}>
           //   <Button
@@ -309,26 +255,42 @@ const ExpensesPage = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {getExpensesByCategory().map(({ category, total }) => (
-                <Tr key={category._id}>
-                  <Td color={textColor}>
-                    <Link
-                      href={`/categories/${category._id}`}
-                      color={linkColor}
-                      fontWeight="medium"
-                      textDecoration="underline"
-                      _hover={{
-                        color: linkHoverColor,
-                        textDecoration: "underline",
-                      }}
-                    >
-                      {category.name}
-                    </Link>
-                  </Td>
-                  <Td isNumeric color={textColor}>
-                    ৳{total.toLocaleString()}
-                  </Td>
-                </Tr>
+              {getExpensesByCategory().map(({ category, expenses, total }) => (
+                <Box
+                  key={category._id}
+                  mb={6}
+                  border="1px"
+                  borderColor={borderColor}
+                  borderRadius="md"
+                  bg={cardBg}
+                  p={4}
+                >
+                  <Heading size="md" mb={2} color={textColor}>
+                    {category.name}
+                  </Heading>
+                  <Text fontSize="sm" mb={2} color={textColor}>
+                    Total: ৳{total.toLocaleString()}
+                  </Text>
+
+                  <Table variant="simple" size="sm">
+                    <Thead>
+                      <Tr>
+                        <Th>Date</Th>
+                        <Th>Description</Th>
+                        <Th isNumeric>Amount (৳)</Th>
+                      </Tr>
+                    </Thead>
+                    <Tbody>
+                      {expenses.map((expense) => (
+                        <Tr key={expense._id}>
+                          <Td>{new Date(expense.date).toLocaleDateString()}</Td>
+                          <Td>{expense.description}</Td>
+                          <Td isNumeric>{expense.amount.toLocaleString()}</Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
+                  </Table>
+                </Box>
               ))}
             </Tbody>
           </Table>
@@ -337,16 +299,7 @@ const ExpensesPage = () => {
           Total Expenses: ৳{totalExpenses.toLocaleString()}
         </Text>
       </Box>
-
       {/* Modals */}
-      <AddCategoryModal
-        isOpen={isCategoryModalOpen}
-        onClose={onCategoryModalClose}
-        newCategoryName={newCategoryName}
-        setNewCategoryName={setNewCategoryName}
-        addNewCategory={addNewCategory}
-      />
-
       <AddExpenseModal
         isOpen={isExpenseModalOpen}
         onClose={onExpenseModalClose}
@@ -361,8 +314,15 @@ const ExpensesPage = () => {
         setExpenseDate={setExpenseDate}
         addExpense={addExpense}
       />
+      <AddCategoryModal
+        isOpen={isCategoryModalOpen}
+        onClose={onCategoryModalClose}
+        newCategoryName={newCategoryName}
+        setNewCategoryName={setNewCategoryName}
+        addNewCategory={addNewCategory}
+      />
     </Box>
   );
 };
 
-export default ExpensesPage;
+export default ExpensesDetailsPage;
