@@ -131,6 +131,10 @@ const ExpensesPage = () => {
           amount: parseFloat(expenseAmount),
           date: expenseDate,
           category: selectedCategoryId,
+          createdBy: {
+            id: user?._id,
+            name: user?.name,
+          },
         },
         token
       );

@@ -43,13 +43,12 @@ export const createDonation = async (req, res) => {
     const donation = new Donation({ donorId, amount, medium, date, createdBy });
     const savedDonation = await donation.save();
 
-    // Ensure this response structure matches what frontend expects
     res.status(201).json({
       success: true,
       message: "Donation created successfully",
       data: {
-        ...savedDonation.toObject(), // Convert Mongoose doc to plain object
-        id: savedDonation._id, // Explicitly include id field
+        ...savedDonation.toObject(),
+        id: savedDonation._id,
       },
     });
   } catch (error) {
@@ -69,14 +68,23 @@ export const getExpenses = async (req, res) => {
 // Add expense
 export const createExpense = async (req, res) => {
   try {
-    const { description, amount, date, category } = req.body;
-    const expense = new Expense({ description, amount, date, category });
+    const { description, amount, date, category, createdBy } = req.body;
+    const expense = new Expense({
+      description,
+      amount,
+      date,
+      category,
+      createdBy,
+    });
     const savedExpense = await expense.save();
 
     res.status(201).json({
       success: true,
       message: "Expense created successfully",
-      data: savedExpense,
+      data: {
+        ...savedExpense.toObject(),
+        id: savedExpense._id,
+      },
     });
   } catch (error) {
     res.status(400).json({

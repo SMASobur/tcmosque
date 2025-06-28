@@ -134,6 +134,7 @@ export const useSchoolStore = create((set) => ({
           amount: expense.amount,
           date: expense.date,
           category: expense.category,
+          createdBy: expense.createdBy,
         }),
       });
 
