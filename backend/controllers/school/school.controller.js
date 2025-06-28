@@ -39,8 +39,8 @@ export const getDonations = async (req, res) => {
 // Add donation
 export const createDonation = async (req, res) => {
   try {
-    const { donorId, amount, medium, date } = req.body;
-    const donation = new Donation({ donorId, amount, medium, date });
+    const { donorId, amount, medium, date, createdBy } = req.body;
+    const donation = new Donation({ donorId, amount, medium, date, createdBy });
     const savedDonation = await donation.save();
 
     // Ensure this response structure matches what frontend expects

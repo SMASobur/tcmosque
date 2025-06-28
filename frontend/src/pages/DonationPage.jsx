@@ -116,6 +116,10 @@ const DonationPage = () => {
           amount: parseFloat(donationAmount),
           medium: DonorMedium,
           date: donationDate,
+          createdBy: {
+            id: user?._id,
+            name: user?.name,
+          },
         },
         token
       );

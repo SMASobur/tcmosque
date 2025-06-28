@@ -13,9 +13,11 @@ import {
   SimpleGrid,
   useColorModeValue,
   FormErrorMessage,
+  Text,
 } from "@chakra-ui/react";
 import Select from "react-select";
 import { useState } from "react";
+import { useAuth } from "../../../context/AuthContext";
 export const AddDonationModal = ({
   isOpen,
   onClose,
@@ -34,6 +36,7 @@ export const AddDonationModal = ({
   const textColor = useColorModeValue("gray.800", "whiteAlpha.900");
   const borderColor = useColorModeValue("gray.200", "gray.500");
   const [amountError, setAmountError] = useState("");
+  const { user } = useAuth();
 
   const isFormValid = () => {
     return (
@@ -170,6 +173,17 @@ export const AddDonationModal = ({
                 borderColor={borderColor}
                 isRequired
               />
+            </FormControl>
+            <FormControl mt={4}>
+              <Text
+                px={3}
+                py={2}
+                bg="gray.200"
+                border="1px solid #E2E8F0"
+                borderRadius="md"
+              >
+                Creating by: {user?.name || "Unknown User"}
+              </Text>
             </FormControl>
           </SimpleGrid>
         </ModalBody>

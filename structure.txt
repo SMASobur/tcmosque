@@ -5,20 +5,17 @@
 │   ├── controllers
 │   │   ├── admin.controller.js
 │   │   ├── auth.controller.js
-│   │   ├── book.controller.js
 │   │   ├── product.controller.js
 │   │   └── school
 │   ├── middleware
 │   │   └── auth.middleware.js
 │   ├── models
-│   │   ├── book.model.js
 │   │   ├── product.model.js
 │   │   ├── school
 │   │   └── user.model.js
 │   ├── routes
 │   │   ├── admin.route.js
 │   │   ├── auth.route.js
-│   │   ├── book.route.js
 │   │   ├── product.route.js
 │   │   └── school
 │   └── server.js
@@ -34,6 +31,7 @@
 │   ├── postcss.config.js
 │   ├── public
 │   │   ├── fav.png
+│   │   ├── fav1.png
 │   │   └── vite.svg
 │   ├── README.md
 │   ├── src
@@ -49,3 +47,8 @@
 │   └── vite.config.js
 ├── package-lock.json
 ├── package.json
+├── README.md
+├── structure.txt
+└── terminal.txt
+
+20 directories, 32 files
