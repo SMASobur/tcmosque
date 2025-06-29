@@ -187,28 +187,9 @@ const ExpensesDetailsPage = () => {
       >
         Expense Details
       </Heading>
-      Will work more after
       {/* Expenses Table */}
       <Box p="4" bg={cardBg} borderRadius="md" boxShadow="md">
         {(user?.role === "admin" || user?.role === "superadmin") && (
-          // <Flex justifyContent="center" gap={4} mb={8}>
-          //   <Button
-          //     colorScheme="red"
-          //     onClick={onExpenseModalOpen}
-          //     rightIcon={<span>Add Expense</span>}
-          //   >
-          //     <GiExpense />
-          //   </Button>
-
-          //   <Button
-          //     variant="outline"
-          //     colorScheme="orange"
-          //     onClick={onCategoryModalOpen}
-          //     rightIcon={<span>Add Category</span>}
-          //   >
-          //     <MdCategory />
-          //   </Button>
-          // </Flex>
           <Flex justify="flex-end" gap={4} mb={4}>
             <Button
               colorScheme="teal"
@@ -264,6 +245,10 @@ const ExpensesDetailsPage = () => {
                   borderRadius="md"
                   bg={cardBg}
                   p={4}
+                  spacing={6}
+                  mt={6}
+                  boxShadow="md"
+                  mx="auto"
                 >
                   <Heading size="md" mb={2} color={textColor}>
                     {category.name}

@@ -236,37 +236,20 @@ const ExpensesPage = () => {
           </CardBody>
         </Card>
       </SimpleGrid>
-
-      {/* Expenses Table */}
-      <Box p="4" bg={cardBg} borderRadius="md" boxShadow="md">
+      <Flex justifyContent="center" mb="4">
         <Button
           as={RouterLink}
           to="/expenses-details"
-          colorScheme="teal"
+          colorScheme="orange"
           size="md"
-          mt={4}
         >
-          Details
+          🗒️ Show All Details
         </Button>
-        {(user?.role === "admin" || user?.role === "superadmin") && (
-          // <Flex justifyContent="center" gap={4} mb={8}>
-          //   <Button
-          //     colorScheme="red"
-          //     onClick={onExpenseModalOpen}
-          //     rightIcon={<span>Add Expense</span>}
-          //   >
-          //     <GiExpense />
-          //   </Button>
+      </Flex>
 
-          //   <Button
-          //     variant="outline"
-          //     colorScheme="orange"
-          //     onClick={onCategoryModalOpen}
-          //     rightIcon={<span>Add Category</span>}
-          //   >
-          //     <MdCategory />
-          //   </Button>
-          // </Flex>
+      {/* Expenses Table */}
+      <Box p="4" bg={cardBg} borderRadius="md" boxShadow="md">
+        {(user?.role === "admin" || user?.role === "superadmin") && (
           <Flex justify="flex-end" gap={4} mb={4}>
             <Button
               colorScheme="teal"
