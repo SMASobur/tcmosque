@@ -117,7 +117,7 @@ const DonationPage = () => {
           medium: DonorMedium,
           date: donationDate,
           createdBy: {
-            id: user?._id,
+            id: user?.id,
             name: user?.name,
           },
         },

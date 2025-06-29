@@ -127,8 +127,8 @@ export const getExpenseCategories = async (req, res) => {
 // Create new expense category
 export const createExpenseCategory = async (req, res) => {
   try {
-    const { name } = req.body;
-    const category = new ExpenseCategory({ name });
+    const { name, createdBy } = req.body;
+    const category = new ExpenseCategory({ name, createdBy });
     const savedCategory = await category.save();
 
     res.status(201).json({

@@ -96,7 +96,7 @@ const ExpensesPage = () => {
       return;
     }
 
-    const result = await createCategory(trimmedName, token);
+    const result = await createCategory(trimmedName, user, token);
 
     if (result.success) {
       toast({
@@ -132,7 +132,7 @@ const ExpensesPage = () => {
           date: expenseDate,
           category: selectedCategoryId,
           createdBy: {
-            id: user?._id,
+            id: user?.id,
             name: user?.name,
           },
         },

@@ -57,8 +57,8 @@ export const useSchoolStore = create((set) => ({
         body: JSON.stringify({
           name,
           createdBy: {
-            id: user._id,
-            name: user.name,
+            id: user?.id,
+            name: user?.name,
           },
         }),
       });
@@ -166,12 +166,18 @@ export const useSchoolStore = create((set) => ({
     }
   },
 
-  createCategory: async (name, token) => {
+  createCategory: async (name, user, token) => {
     try {
       const res = await fetch("/api/school/expense-categories", {
         method: "POST",
         headers: authHeaders(token),
-        body: JSON.stringify({ name }),
+        body: JSON.stringify({
+          name,
+          createdBy: {
+            id: user?.id,
+            name: user?.name,
+          },
+        }),
       });
 
       const data = await res.json();

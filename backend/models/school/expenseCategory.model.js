@@ -8,6 +8,17 @@ const expenseCategorySchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
+    createdBy: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      name: {
+        type: String,
+        required: true,
+      },
+    },
   },
   { timestamps: true }
 );
