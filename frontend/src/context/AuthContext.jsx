@@ -53,7 +53,13 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       const data = await res.json();
-      setUser({ ...data, token: jwt });
+      setUser({
+        id: data.id || data._id,
+        name: data.name,
+        email: data.email,
+        role: data.role,
+        token: jwt,
+      });
     } else {
       logout();
     }

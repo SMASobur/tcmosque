@@ -89,7 +89,7 @@ const DonationPage = () => {
       return;
     }
 
-    const result = await createDonor(trimmedName, token);
+    const result = await createDonor(trimmedName, user, token);
     if (result.success) {
       toast({
         title: "Donor added.",

@@ -49,12 +49,18 @@ export const useSchoolStore = create((set) => ({
     }
   },
 
-  createDonor: async (name, token) => {
+  createDonor: async (name, user, token) => {
     try {
       const res = await fetch("/api/school/donors", {
         method: "POST",
         headers: authHeaders(token),
-        body: JSON.stringify({ name }),
+        body: JSON.stringify({
+          name,
+          createdBy: {
+            id: user._id,
+            name: user.name,
+          },
+        }),
       });
 
       const data = await res.json();
@@ -129,13 +135,14 @@ export const useSchoolStore = create((set) => ({
       const res = await fetch("/api/school/expenses", {
         method: "POST",
         headers: authHeaders(token),
-        body: JSON.stringify({
-          description: expense.description,
-          amount: expense.amount,
-          date: expense.date,
-          category: expense.category,
-          createdBy: expense.createdBy,
-        }),
+        body: JSON.stringify(expense),
+        // body: JSON.stringify({
+        //   description: expense.description,
+        //   amount: expense.amount,
+        //   date: expense.date,
+        //   category: expense.category,
+        //   createdBy: expense.createdBy,
+        // }),
       });
 
       const data = await res.json();

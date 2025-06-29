@@ -12,8 +12,8 @@ export const getDonors = async (req, res) => {
 // Add new donor
 export const createDonor = async (req, res) => {
   try {
-    const { name } = req.body;
-    const donor = new Donor({ name });
+    const { name, createdBy } = req.body;
+    const donor = new Donor({ name, createdBy });
     const savedDonor = await donor.save();
 
     // Make sure to return this exact structure
