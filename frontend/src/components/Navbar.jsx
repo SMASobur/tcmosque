@@ -104,15 +104,6 @@ const Navbar = () => {
             py={2}
           >
             <HStack spacing={2} alignItems={"center"}>
-              {/* Always visible links */}
-              {/* <RouterLink to={user ? "/my-books" : "/books"}>
-                <Button
-                // leftIcon={<PiBooksDuotone fontSize={20} />}
-                >
-                  📚 Books
-                </Button>
-              </RouterLink> */}
-
               <RouterLink to="/finance">
                 <Button>🕌 Masjid Finance</Button>
               </RouterLink>

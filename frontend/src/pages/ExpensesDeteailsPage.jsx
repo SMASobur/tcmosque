@@ -95,7 +95,7 @@ const ExpensesDetailsPage = () => {
       return;
     }
 
-    const result = await createCategory(trimmedName, token);
+    const result = await createCategory(trimmedName, user, token);
 
     if (result.success) {
       toast({
@@ -130,6 +130,10 @@ const ExpensesDetailsPage = () => {
           amount: parseFloat(expenseAmount),
           date: expenseDate,
           category: selectedCategoryId,
+          createdBy: {
+            id: user?.id,
+            name: user?.name,
+          },
         },
         token
       );
@@ -185,7 +189,7 @@ const ExpensesDetailsPage = () => {
         mb={6}
         size={isMobile ? "lg" : "xl"}
       >
-        Expense Details
+        Expense details
       </Heading>
       {/* Expenses Table */}
       <Box p="4" bg={cardBg} borderRadius="md" boxShadow="md">
