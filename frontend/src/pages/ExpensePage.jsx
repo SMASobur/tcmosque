@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { EditExpenseModal } from "../components/modals/school/EditExpenseModal";
 import {
   Box,
   Heading,
@@ -39,7 +40,19 @@ const ExpensePage = () => {
     fetchAllSchoolData,
     deleteExpense,
     deleteCategory,
+    updateExpense,
   } = useSchoolStore();
+  const {
+    isOpen: isEditModalOpen,
+    onOpen: onEditModalOpen,
+    onClose: onEditModalClose,
+  } = useDisclosure();
+  const [editingExpense, setEditingExpense] = useState(null);
+
+  const handleEditClick = (expense) => {
+    setEditingExpense(expense);
+    onEditModalOpen();
+  };
 
   const { user, token } = useAuth();
 
@@ -186,20 +199,29 @@ const ExpensePage = () => {
             <Card key={expense.id} bg={cardBg}>
               <CardBody position="relative">
                 <Flex justifyContent="space-between" alignItems="center" mb={4}>
-                  <Text fontSize="md" fontWeight="bold" color={textColor}>
-                    Amount: ৳{expense.amount.toLocaleString()}
-                  </Text>
                   {(user?.role === "admin" || user?.role === "superadmin") && (
-                    <Button
-                      size="sm"
-                      colorScheme="red"
-                      leftIcon={<DeleteIcon />}
-                      onClick={() => openDeleteDialog(expense.id)}
-                    >
-                      Delete
-                    </Button>
+                    <>
+                      <Button
+                        size="sm"
+                        colorScheme="blue"
+                        onClick={() => handleEditClick(expense)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        colorScheme="red"
+                        leftIcon={<DeleteIcon />}
+                        onClick={() => openDeleteDialog(expense.id)}
+                      >
+                        Delete
+                      </Button>
+                    </>
                   )}
                 </Flex>
+                <Text fontSize="md" fontWeight="bold" color={textColor}>
+                  Amount: ৳{expense.amount.toLocaleString()}
+                </Text>
 
                 <Text fontSize="sm" color={textColor}>
                   Date: {formatDate(expense.date)}
@@ -207,6 +229,22 @@ const ExpensePage = () => {
                 <Text fontSize="md" color={textColor} mb={2}>
                   {expense.description}
                 </Text>
+                {(user?.role === "admin" || user?.role === "superadmin") && (
+                  <Text fontSize="md" color={textColor} mb={2}>
+                    {expense.createdBy && (
+                      <Text fontSize="sm" color="gray.500" mt={2}>
+                        Created by: {expense.createdBy.name || "Unknown"}
+                        {expense.createdAt && (
+                          <span>
+                            {" "}
+                            on{" "}
+                            {new Date(expense.createdAt).toLocaleDateString()}
+                          </span>
+                        )}
+                      </Text>
+                    )}
+                  </Text>
+                )}
               </CardBody>
             </Card>
           ))}
@@ -265,6 +303,17 @@ const ExpensePage = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
+
+      {editingExpense && (
+        <EditExpenseModal
+          isOpen={isEditModalOpen}
+          onClose={onEditModalClose}
+          expense={editingExpense}
+          expenseCategories={expenseCategories}
+          updateExpense={updateExpense}
+          fetchData={fetchAllSchoolData}
+        />
+      )}
     </Box>
   );
 };

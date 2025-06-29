@@ -94,6 +94,31 @@ export const createExpense = async (req, res) => {
   }
 };
 
+export const updateExpense = async (req, res) => {
+  try {
+    const updatedExpense = await Expense.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    ).populate("category", "name");
+
+    if (!updatedExpense) {
+      return res.status(404).json({ message: "Expense not found" });
+    }
+
+    res.json({
+      success: true,
+      message: "Expense updated",
+      data: updatedExpense,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const getAllSchoolData = async (req, res) => {
   try {
     const [donors, donations, expenses, expenseCategories] = await Promise.all([

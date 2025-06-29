@@ -6,6 +6,7 @@ import {
   createDonation,
   getExpenses,
   createExpense,
+  updateExpense,
   getAllSchoolData,
   getExpenseCategories,
   createExpenseCategory,
@@ -35,5 +36,6 @@ router.delete("/expense-categories/:id", deleteExpenseCategory);
 router.get("/expenses", getExpenses);
 router.post("/expenses", createExpense);
 router.delete("/expenses/:id", deleteExpense);
+router.put("/expenses/:id", updateExpense);
 
 export default router;

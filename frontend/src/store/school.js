@@ -166,6 +166,22 @@ export const useSchoolStore = create((set) => ({
     }
   },
 
+  updateExpense: async (id, data, token) => {
+    try {
+      const response = await fetch(`/api/school/expenses/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+      return await response.json();
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  },
+
   createCategory: async (name, user, token) => {
     try {
       const res = await fetch("/api/school/expense-categories", {
