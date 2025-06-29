@@ -31,9 +31,18 @@ import { useAuth } from "../context/AuthContext";
 const ExpensePage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const toast = useToast();
+
   const cancelRef = useRef();
 
+  const [loading, setLoading] = useState(false);
+  const [itemToDelete, setItemToDelete] = useState(null);
+  const [isCategoryDelete, setIsCategoryDelete] = useState(false);
+  const [confirmationText, setConfirmationText] = useState("");
+  const [isConfirming, setIsConfirming] = useState(false);
+  const [editingExpense, setEditingExpense] = useState(null);
+
+  const { user, token } = useAuth();
+  const toast = useToast();
   const {
     expenses,
     expenseCategories,
@@ -42,36 +51,26 @@ const ExpensePage = () => {
     deleteCategory,
     updateExpense,
   } = useSchoolStore();
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     isOpen: isEditModalOpen,
     onOpen: onEditModalOpen,
     onClose: onEditModalClose,
   } = useDisclosure();
-  const [editingExpense, setEditingExpense] = useState(null);
-
-  const handleEditClick = (expense) => {
-    setEditingExpense(expense);
-    onEditModalOpen();
-  };
-
-  const { user, token } = useAuth();
-
-  const [loading, setLoading] = useState(false);
-  const [itemToDelete, setItemToDelete] = useState(null);
-  const [isCategoryDelete, setIsCategoryDelete] = useState(false);
-  const [confirmationText, setConfirmationText] = useState("");
-  const [isConfirming, setIsConfirming] = useState(false);
-
-  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const cardBg = useColorModeValue("white", "gray.700");
   const textColor = useColorModeValue("gray.700", "whiteAlpha.900");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
 
   const category = expenseCategories.find((c) => c.id === id);
   const categoryExpenses = expenses.filter(
     (e) => e.category === id || e.category?._id === id
   );
+
+  const handleEditClick = (expense) => {
+    setEditingExpense(expense);
+    onEditModalOpen();
+  };
 
   useEffect(() => {
     if (!expenses.length || !expenseCategories.length) {
@@ -176,16 +175,17 @@ const ExpensePage = () => {
           </Box>
         )}
       </Flex>
-
-      <Text mb={2} fontSize="lg" textAlign="center" color={textColor}>
-        Total Expenses: ৳
-        {categoryExpenses
-          .reduce((sum, e) => sum + e.amount, 0)
-          .toLocaleString()}
-      </Text>
-      <Text mb={6} fontSize="lg" textAlign="center" color={textColor}>
-        Number of Expenses: {categoryExpenses.length}
-      </Text>
+      <Card mb="4" p="2">
+        <Text mb={2} fontSize="xl" textAlign="center" color={textColor}>
+          Total Expenses: ৳
+          {categoryExpenses
+            .reduce((sum, e) => sum + e.amount, 0)
+            .toLocaleString()}
+        </Text>
+        <Text mb={6} fontSize="lg" textAlign="center" color={textColor}>
+          Number of Expenses: {categoryExpenses.length}
+        </Text>
+      </Card>
 
       {categoryExpenses.length === 0 ? (
         <Card bg={cardBg}>
@@ -222,28 +222,36 @@ const ExpensePage = () => {
                 <Text fontSize="md" fontWeight="bold" color={textColor}>
                   Amount: ৳{expense.amount.toLocaleString()}
                 </Text>
-
                 <Text fontSize="sm" color={textColor}>
-                  Date: {formatDate(expense.date)}
+                  <strong>Date: </strong>
+                  {formatDate(expense.date)}
                 </Text>
-                <Text fontSize="md" color={textColor} mb={2}>
-                  {expense.description}
-                </Text>
-                {(user?.role === "admin" || user?.role === "superadmin") && (
-                  <Text fontSize="md" color={textColor} mb={2}>
-                    {expense.createdBy && (
-                      <Text fontSize="sm" color="gray.500" mt={2}>
-                        Created by: {expense.createdBy.name || "Unknown"}
-                        {expense.createdAt && (
-                          <span>
-                            {" "}
-                            on{" "}
-                            {new Date(expense.createdAt).toLocaleDateString()}
-                          </span>
-                        )}
+                <Box mb={2}>
+                  <Text fontSize="md" color={textColor}>
+                    <strong>Describtion: </strong>
+                    {expense.description}
+                  </Text>
+                </Box>
+                {(user?.role === "admin" ||
+                  user?.role === "user" ||
+                  user?.role === "superadmin") && (
+                  <Box
+                    mt={2}
+                    p={2}
+                    bg={useColorModeValue("gray.100", "gray.600")}
+                    borderRadius="md"
+                  >
+                    <Text fontSize="sm" color={textColor}>
+                      <strong>Added by:</strong>{" "}
+                      {expense.createdBy.name || "Unknown"}
+                    </Text>
+                    {expense.createdAt && (
+                      <Text fontSize="sm" color={textColor}>
+                        <strong>Date:</strong>{" "}
+                        {new Date(expense.createdAt).toLocaleDateString()}
                       </Text>
                     )}
-                  </Text>
+                  </Box>
                 )}
               </CardBody>
             </Card>

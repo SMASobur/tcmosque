@@ -2,6 +2,7 @@ import express from "express";
 import {
   getDonors,
   createDonor,
+  updateDonor,
   getDonations,
   createDonation,
   getExpenses,
@@ -24,6 +25,7 @@ router.get("/", getAllSchoolData);
 router.get("/donors", getDonors);
 router.post("/donors", createDonor);
 router.delete("/donors/:id", deleteDonor);
+router.put("/donors/:id", updateDonor);
 
 router.get("/donations", getDonations);
 router.post("/donations", createDonation);

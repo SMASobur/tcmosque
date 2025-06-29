@@ -24,6 +24,7 @@ import {
   FormLabel,
   SimpleGrid,
 } from "@chakra-ui/react";
+import { EditDonorModal } from "../components/modals/school/EditDonorModal";
 import { DeleteIcon } from "@chakra-ui/icons";
 
 import { useSchoolStore } from "../store/school";
@@ -35,8 +36,15 @@ const DonorPage = () => {
   const toast = useToast();
   const cancelRef = useRef();
 
-  const { donors, donations, fetchAllSchoolData, deleteDonor, deleteDonation } =
-    useSchoolStore();
+  const {
+    donors,
+    donations,
+    fetchAllSchoolData,
+    deleteDonor,
+    deleteDonation,
+    updateDonor,
+  } = useSchoolStore();
+
   const { user, token } = useAuth();
 
   const [loading, setLoading] = useState(false);
@@ -55,6 +63,13 @@ const DonorPage = () => {
   const cardBg = useColorModeValue("white", "gray.700");
   const textColor = useColorModeValue("gray.800", "whiteAlpha.900");
 
+  const {
+    isOpen: isEditModalOpen,
+    onOpen: onEditModalOpen,
+    onClose: onEditModalClose,
+  } = useDisclosure();
+  const [editingDonor, setEditingDonor] = useState(null);
+
   useEffect(() => {
     if (!donors.length || !donations.length) {
       setLoading(true);
@@ -70,6 +85,11 @@ const DonorPage = () => {
       duration: 4000,
       isClosable: true,
     });
+  };
+
+  const handleEditClick = (donor) => {
+    setEditingDonor(donor);
+    onEditModalOpen();
   };
 
   const handleDelete = async () => {
@@ -148,11 +168,18 @@ const DonorPage = () => {
         {(user?.role === "admin" || user?.role === "superadmin") && (
           <Box mb={4} textAlign="right">
             <Button
+              colorScheme="blue"
+              onClick={() => handleEditClick(donor)}
+              mr={3}
+            >
+              Edit
+            </Button>
+            <Button
               colorScheme="red"
               onClick={() => openDeleteDialog(donor.id, true)}
               leftIcon={<DeleteIcon />}
             >
-              Delete Donor
+              Delete
             </Button>
           </Box>
         )}
@@ -262,6 +289,16 @@ const DonorPage = () => {
           </AlertDialogContent>
         </AlertDialogOverlay>
       </AlertDialog>
+
+      {editingDonor && (
+        <EditDonorModal
+          isOpen={isEditModalOpen}
+          onClose={onEditModalClose}
+          donor={editingDonor}
+          updateDonor={updateDonor}
+          fetchData={fetchAllSchoolData}
+        />
+      )}
     </Box>
   );
 };

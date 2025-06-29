@@ -29,7 +29,30 @@ export const createDonor = async (req, res) => {
     });
   }
 };
+export const updateDonor = async (req, res) => {
+  try {
+    const updatedDonor = await Donor.findByIdAndUpdate(
+      req.params.id,
+      { name: req.body.name },
+      { new: true }
+    );
 
+    if (!updatedDonor) {
+      return res.status(404).json({ message: "Donor not found" });
+    }
+
+    res.json({
+      success: true,
+      message: "Donor updated successfully",
+      data: updatedDonor,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 // Get all donations
 export const getDonations = async (req, res) => {
   const donations = await Donation.find().populate("donorId", "name");
