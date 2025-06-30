@@ -7,6 +7,7 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
+  useBreakpointValue,
   Image,
   Link as ChakraLink,
   Tooltip,
@@ -30,6 +31,7 @@ const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const isMobile = useBreakpointValue({ base: true, md: false });
 
   const handleLogout = () => {
     logout();
@@ -38,7 +40,7 @@ const Navbar = () => {
 
   return (
     <Box
-      position="sticky"
+      position={isMobile ? "static" : "sticky"}
       top="0"
       zIndex="sticky"
       bg={useColorModeValue("gray.300", "gray.700")}
