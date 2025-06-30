@@ -8,8 +8,8 @@ const donationSchema = new mongoose.Schema(
       required: true,
     },
     amount: { type: Number, required: true },
-    medium: { type: String, required: false },
-    date: { type: Date, default: Date.now },
+    medium: { type: String, required: true },
+    date: { type: Date, required: true },
     createdBy: {
       id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -21,10 +21,15 @@ const donationSchema = new mongoose.Schema(
         required: true,
       },
     },
+    updatedBy: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      name: String,
+    },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 export const Donation = mongoose.model("Donation", donationSchema);

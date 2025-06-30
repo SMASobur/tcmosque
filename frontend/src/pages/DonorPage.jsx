@@ -250,6 +250,35 @@ const DonorPage = () => {
                   Medium: {donation.medium || "N/A"}
                 </Text>
               </CardBody>
+              <Box
+                mt={2}
+                p={2}
+                bg={useColorModeValue("gray.100", "gray.600")}
+                borderRadius="md"
+              >
+                {donation.createdBy && (
+                  <Text fontSize="sm" color={textColor}>
+                    <strong>Created by:</strong> {donation.createdBy.name}
+                    {donation.createdAt && (
+                      <span>
+                        {" "}
+                        on {new Date(donation.createdAt).toLocaleDateString()}
+                      </span>
+                    )}
+                  </Text>
+                )}
+                {donation.updatedBy && (
+                  <Text fontSize="sm" color={textColor}>
+                    <strong>Last updated by:</strong> {donation.updatedBy.name}
+                    {donation.updatedAt && (
+                      <span>
+                        {" "}
+                        on {new Date(donation.updatedAt).toLocaleDateString()}
+                      </span>
+                    )}
+                  </Text>
+                )}
+              </Box>
             </Card>
           ))}
         </SimpleGrid>

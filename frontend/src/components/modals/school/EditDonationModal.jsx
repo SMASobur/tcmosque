@@ -94,6 +94,10 @@ export const EditDonationModal = ({
         date: formData.date,
         medium: formData.medium,
         donorId: formData.donorId,
+        updatedBy: {
+          id: user?.id,
+          name: user?.name,
+        },
       });
 
       if (result.success) {

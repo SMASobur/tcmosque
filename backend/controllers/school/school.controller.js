@@ -89,6 +89,7 @@ export const updateDonation = async (req, res) => {
         date: req.body.date,
         medium: req.body.medium,
         donorId: req.body.donorId,
+        updatedBy: req.body.updatedBy,
       },
       { new: true }
     ).populate("donorId", "name");
