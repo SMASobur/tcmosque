@@ -209,25 +209,26 @@ const ExpensePage = () => {
           {categoryExpenses.map((expense) => (
             <Card key={expense.id} bg={cardBg}>
               <CardBody position="relative">
-                <Flex justifyContent="space-between" alignItems="center" mb={4}>
+                <Flex justifyContent="flex-end" gap={4} mb={4}>
+                  {user && (
+                    <Button
+                      size="sm"
+                      colorScheme="blue"
+                      onClick={() => handleEditClick(expense)}
+                    >
+                      Edit
+                    </Button>
+                  )}
+
                   {(user?.role === "admin" || user?.role === "superadmin") && (
-                    <>
-                      <Button
-                        size="sm"
-                        colorScheme="blue"
-                        onClick={() => handleEditClick(expense)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        size="sm"
-                        colorScheme="red"
-                        leftIcon={<DeleteIcon />}
-                        onClick={() => openDeleteDialog(expense.id)}
-                      >
-                        Delete
-                      </Button>
-                    </>
+                    <Button
+                      size="sm"
+                      colorScheme="red"
+                      leftIcon={<DeleteIcon />}
+                      onClick={() => openDeleteDialog(expense.id)}
+                    >
+                      Delete
+                    </Button>
                   )}
                 </Flex>
                 <Text fontSize="md" fontWeight="bold" color={textColor}>

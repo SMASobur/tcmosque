@@ -247,7 +247,7 @@ const SchoolPage = () => {
       </SimpleGrid>
 
       {/* Financial Charts */}
-      <Card bg={cardBg} p={4} mb={6}>
+      <Card bg={cardBg} p={2} mb={6}>
         <Flex
           direction={{ base: "column", md: "row" }}
           w="100%"
@@ -256,7 +256,7 @@ const SchoolPage = () => {
           align="stretch"
         >
           {/* most  5 recent Donors */}
-          <Box flex={1} p={4}>
+          <Box flex={1} p={1}>
             <Heading
               size="sm"
               mb={4}

@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Bar, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from "chart.js";
-ChartJS.register(...registerables);
-
-import { useSchoolStore } from "../store/school";
 import { FaDonate } from "react-icons/fa";
 import { GiExpense } from "react-icons/gi";
 import { MdAccountBalance } from "react-icons/md";
@@ -14,7 +11,6 @@ import {
   Text,
   SimpleGrid,
   useBreakpointValue,
-  useColorMode,
   useColorModeValue,
   Card,
   CardBody,
@@ -26,37 +22,39 @@ import {
   Tr,
   Th,
   Td,
-  Image,
   Stack,
 } from "@chakra-ui/react";
+import { useSchoolStore } from "../store/school";
 import { useAuth } from "../context/AuthContext";
 
+// Register ChartJS
+ChartJS.register(...registerables);
+
 const SchoolPage = () => {
-  const { colorMode } = useColorMode();
+  // 1. Router hooks (none in this component)
+
+  // 2. State hooks
+  const [donationSearch, setDonationSearch] = useState("");
+  const [expenseSearch, setExpenseSearch] = useState("");
+
+  // 3. Context hooks
+  const { user } = useAuth();
+  const { donors, donations, expenses, expenseCategories, fetchAllSchoolData } =
+    useSchoolStore();
+
+  // 4. Style hooks
+  const isMobile = useBreakpointValue({ base: true, md: false });
   const bgColor = useColorModeValue("gray.50", "gray.500");
   const cardBg = useColorModeValue("white", "gray.600");
   const textColor = useColorModeValue("gray.800", "whiteAlpha.900");
   const borderColor = useColorModeValue("gray.200", "gray.500");
 
-  const { donors, donations, expenses, expenseCategories, fetchAllSchoolData } =
-    useSchoolStore();
-
-  const { user } = useAuth();
-  const [donationSearch, setDonationSearch] = useState("");
-  const [expenseSearch, setExpenseSearch] = useState("");
-
-  const isMobile = useBreakpointValue({ base: true, md: false });
-
+  // 5. Effects
   useEffect(() => {
     fetchAllSchoolData();
-  }, []);
+  }, [fetchAllSchoolData]);
 
-  // Calculate totals
-  const totalDonations = donations.reduce((sum, d) => sum + d.amount, 0);
-  const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
-  const balance = totalDonations - totalExpenses;
-
-  // Get top donors
+  // Helper functions
   const getDonationsByDonor = () => {
     const filteredDonors = donors.filter((donor) =>
       donor.name.toLowerCase().includes(donationSearch.toLowerCase())
@@ -69,11 +67,6 @@ const SchoolPage = () => {
     });
   };
 
-  const topDonors = getDonationsByDonor()
-    .sort((a, b) => b.total - a.total)
-    .slice(0, 5);
-
-  // Get expense categories
   const getExpensesByCategory = () => {
     const filteredCategories = expenseCategories.filter((category) =>
       category.name.toLowerCase().includes(expenseSearch.toLowerCase())
@@ -88,31 +81,40 @@ const SchoolPage = () => {
     });
   };
 
+  // Calculations
+  const totalDonations = donations.reduce((sum, d) => sum + d.amount, 0);
+  const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+  const balance = totalDonations - totalExpenses;
+
+  const topDonors = getDonationsByDonor()
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 5);
+
   const mostExpenses = getExpensesByCategory()
     .sort((a, b) => b.total - a.total)
     .slice(0, 5);
 
   return (
     <Box p={isMobile ? 3 : 5} bg={bgColor} minH="80vh">
+      {/* Header Section */}
       <Box
         borderRadius="lg"
         overflow="hidden"
         borderWidth="1px"
         borderColor={useColorModeValue("gray.200", "gray.600")}
         display="flex"
-        flexDirection={isMobile ? "column" : "row"} // Stack vertically on mobile
+        flexDirection={isMobile ? "column" : "row"}
         alignItems="center"
         justifyContent="center"
-        textAlign={isMobile ? "center" : "left"} // Center text on mobile
-        gap={isMobile ? 4 : 8} // Adjust gap for mobile
-        p={isMobile ? 4 : 6} // Responsive padding
+        textAlign={isMobile ? "center" : "left"}
+        gap={isMobile ? 4 : 8}
+        p={isMobile ? 4 : 6}
         mb={4}
       >
-        {/* Mosque Details (stacked vertically) */}
         <Stack spacing={isMobile ? 2 : 3}>
           <Heading
             as="b"
-            fontSize={isMobile ? "2xl" : "4xl"} // Smaller on mobile
+            fontSize={isMobile ? "2xl" : "4xl"}
             color={useColorModeValue("orange.500", "orange.300")}
             lineHeight="shorter"
           >
@@ -215,13 +217,17 @@ const SchoolPage = () => {
       {/* Financial Charts */}
       <SimpleGrid columns={{ base: 1, md: 2 }} spacing={4} mb={6}>
         {/* Donations vs Expenses Comparison */}
+
         <Card bg={cardBg} p={4}>
           <Heading
             size="sm"
             mb={4}
             color={useColorModeValue("gray.800", "whiteAlpha.900")}
           >
-            Donations vs Expenses
+            Donations vs Expenses{"  "}
+            <Box as="span" fontSize="xl">
+              ⚖️
+            </Box>
           </Heading>
           <Bar
             data={{
@@ -257,7 +263,7 @@ const SchoolPage = () => {
                     color: useColorModeValue(
                       "rgba(0,0,0,0.1)",
                       "rgba(255,255,255,0.1)"
-                    ), // Grid lines
+                    ),
                   },
                 },
                 y: {
@@ -268,7 +274,7 @@ const SchoolPage = () => {
                     color: useColorModeValue(
                       "rgba(0,0,0,0.1)",
                       "rgba(255,255,255,0.1)"
-                    ), // Grid lines
+                    ),
                   },
                 },
               },
@@ -277,7 +283,7 @@ const SchoolPage = () => {
         </Card>
 
         {/* Expense Categories */}
-        <Card bg={cardBg} p={4}>
+        <Card bg={cardBg} p={4} height="100%">
           <Heading
             size="sm"
             mb={4}
@@ -285,15 +291,13 @@ const SchoolPage = () => {
           >
             Expense Categories
           </Heading>
-          <Box height="250px">
+          <Box position="relative" height="100%" minHeight="250px">
             <Pie
               data={{
-                labels: getExpensesByCategory().map(
-                  (item) => item.category.name
-                ),
+                labels: mostExpenses.map((item) => item.category.name),
                 datasets: [
                   {
-                    data: getExpensesByCategory().map((item) => item.total),
+                    data: mostExpenses.map((item) => item.total),
                     backgroundColor: [
                       "#DD6B20",
                       "#3182CE",
@@ -321,7 +325,7 @@ const SchoolPage = () => {
         </Card>
 
         {/* Top 5 Donors */}
-        <Card bg={cardBg} p={4} mb={6}>
+        <Card bg={cardBg} p={4}>
           <Heading
             size="sm"
             mb={4}
@@ -363,15 +367,9 @@ const SchoolPage = () => {
             }}
           />
         </Card>
-        {/* Most 5 recent donor */}
-        <Card
-          bg={cardBg}
-          border="1px"
-          borderColor={borderColor}
-          shadow="md"
-          p={4}
-          mb={6}
-        >
+
+        {/* Recent Donations Table */}
+        <Card bg={cardBg} border="1px" borderColor={borderColor} p={4}>
           <Heading
             size="sm"
             mb={6}

@@ -219,24 +219,25 @@ const DonorPage = () => {
             <Card key={donation.id} bg={cardBg}>
               <CardBody position="relative">
                 <Flex justifyContent="space-between" alignItems="center" mb={4}>
+                  {user && (
+                    <Button
+                      size="sm"
+                      colorScheme="blue"
+                      onClick={() => handleEditDonationClick(donation)}
+                    >
+                      Edit
+                    </Button>
+                  )}
+
                   {isAdmin && (
-                    <>
-                      <Button
-                        size="sm"
-                        colorScheme="blue"
-                        onClick={() => handleEditDonationClick(donation)}
-                      >
-                        Edit
-                      </Button>
-                      <Button
-                        size="sm"
-                        colorScheme="red"
-                        leftIcon={<DeleteIcon />}
-                        onClick={() => openDeleteDialog(donation.id)}
-                      >
-                        Delete
-                      </Button>
-                    </>
+                    <Button
+                      size="sm"
+                      colorScheme="red"
+                      leftIcon={<DeleteIcon />}
+                      onClick={() => openDeleteDialog(donation.id)}
+                    >
+                      Delete
+                    </Button>
                   )}
                 </Flex>
                 <Text fontSize="md" fontWeight="bold" color={textColor}>

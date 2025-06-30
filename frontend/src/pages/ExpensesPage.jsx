@@ -249,7 +249,9 @@ const ExpensesPage = () => {
 
       {/* Expenses Table */}
       <Box p="4" bg={cardBg} borderRadius="md" boxShadow="md">
-        {(user?.role === "admin" || user?.role === "superadmin") && (
+        {(user?.role === "user" ||
+          user?.role === "admin" ||
+          user?.role === "superadmin") && (
           <Flex justify="flex-end" gap={4} mb={4}>
             <Button
               colorScheme="teal"

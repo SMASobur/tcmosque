@@ -228,8 +228,10 @@ const DonationPage = () => {
 
       {/* Donations Table */}
       <Box p="4" bg={cardBg} borderRadius="md" boxShadow="md">
-        {(user?.role === "admin" || user?.role === "superadmin") && (
-          <Flex justifyContent="center" gap={4} mb={8}>
+        {(user?.role === "user" ||
+          user?.role === "admin" ||
+          user?.role === "superadmin") && (
+          <Flex justifyContent="flex-end" gap={4} mb={8}>
             <Button
               colorScheme="blue"
               onClick={openDonationModal}
