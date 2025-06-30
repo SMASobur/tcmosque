@@ -232,28 +232,42 @@ const ExpensePage = () => {
                     {expense.description}
                   </Text>
                 </Box>
-                {(user?.role === "admin" ||
-                  user?.role === "user" ||
-                  user?.role === "superadmin") && (
-                  <Box
-                    mt={2}
-                    p={2}
-                    bg={useColorModeValue("gray.100", "gray.600")}
-                    borderRadius="md"
-                  >
-                    <Text fontSize="sm" color={textColor}>
-                      <strong>Added by:</strong>{" "}
-                      {expense.createdBy.name || "Unknown"}
-                    </Text>
-                    {expense.createdAt && (
-                      <Text fontSize="sm" color={textColor}>
-                        <strong>Date:</strong>{" "}
-                        {new Date(expense.createdAt).toLocaleDateString()}
-                      </Text>
-                    )}
-                  </Box>
-                )}
               </CardBody>
+              {(user?.role === "admin" ||
+                user?.role === "user" ||
+                user?.role === "superadmin") && (
+                <Box
+                  mt={2}
+                  p={2}
+                  bg={useColorModeValue("gray.100", "gray.600")}
+                  borderRadius="md"
+                >
+                  {expense.createdBy && (
+                    <Text fontSize="sm" color={textColor}>
+                      <strong>Created by:</strong>{" "}
+                      {expense.createdBy.name || "Unknown"}
+                      {expense.createdAt && (
+                        <span>
+                          {" "}
+                          on {new Date(expense.createdAt).toLocaleDateString()}
+                        </span>
+                      )}
+                    </Text>
+                  )}
+                  {expense.updatedBy && (
+                    <Text fontSize="sm" color={textColor}>
+                      <strong>Last updated by:</strong>{" "}
+                      {expense.updatedBy.name || "Unknown"}
+                      {expense.updatedAt && (
+                        <span>
+                          {" "}
+                          on {new Date(expense.updatedAt).toLocaleDateString()}
+                        </span>
+                      )}
+                    </Text>
+                  )}
+                </Box>
+              )}
             </Card>
           ))}
         </SimpleGrid>

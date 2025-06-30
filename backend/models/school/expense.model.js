@@ -31,6 +31,13 @@ const expenseSchema = new mongoose.Schema(
         required: true,
       },
     },
+    updatedBy: {
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      name: String,
+    },
   },
   {
     timestamps: true,

@@ -14,6 +14,7 @@ import {
   Select,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useAuth } from "../../../context/AuthContext";
 
 export const EditExpenseModal = ({
   isOpen,
@@ -31,6 +32,7 @@ export const EditExpenseModal = ({
     category: expense.category?._id || expense.category,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { user } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -45,6 +47,10 @@ export const EditExpenseModal = ({
         amount: parseFloat(formData.amount),
         date: formData.date,
         category: formData.category,
+        updatedBy: {
+          id: user?._id,
+          name: user?.name,
+        },
       });
 
       toast({

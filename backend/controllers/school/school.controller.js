@@ -149,8 +149,14 @@ export const updateExpense = async (req, res) => {
   try {
     const updatedExpense = await Expense.findByIdAndUpdate(
       req.params.id,
-      req.body,
-      { new: true }
+      {
+        ...req.body,
+        updatedBy: req.body.updatedBy,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
     ).populate("category", "name");
 
     if (!updatedExpense) {
@@ -159,7 +165,7 @@ export const updateExpense = async (req, res) => {
 
     res.json({
       success: true,
-      message: "Expense updated",
+      message: "Expense updated successfully",
       data: updatedExpense,
     });
   } catch (error) {
