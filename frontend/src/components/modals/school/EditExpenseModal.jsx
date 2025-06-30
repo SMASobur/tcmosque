@@ -48,7 +48,7 @@ export const EditExpenseModal = ({
         date: formData.date,
         category: formData.category,
         updatedBy: {
-          id: user?._id,
+          id: user?.id,
           name: user?.name,
         },
       });
