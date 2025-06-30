@@ -144,6 +144,21 @@ export const useSchoolStore = create((set) => ({
       };
     }
   },
+  updateDonation: async (id, data, token) => {
+    try {
+      const response = await fetch(`/api/school/donations/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+      return await response.json();
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  },
 
   createExpense: async (expense, token) => {
     try {

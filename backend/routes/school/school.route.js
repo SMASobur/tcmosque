@@ -5,6 +5,7 @@ import {
   updateDonor,
   getDonations,
   createDonation,
+  updateDonation,
   getExpenses,
   createExpense,
   updateExpense,
@@ -30,6 +31,7 @@ router.put("/donors/:id", updateDonor);
 router.get("/donations", getDonations);
 router.post("/donations", createDonation);
 router.delete("/donations/:id", deleteDonation);
+router.put("/donations/:id", updateDonation);
 
 router.get("/expense-categories", getExpenseCategories);
 router.post("/expense-categories", createExpenseCategory);

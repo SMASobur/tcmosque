@@ -25,6 +25,7 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { EditDonorModal } from "../components/modals/school/EditDonorModal";
+import { EditDonationModal } from "../components/modals/school/EditDonationModal";
 import { DeleteIcon } from "@chakra-ui/icons";
 
 import { useSchoolStore } from "../store/school";
@@ -42,10 +43,18 @@ const DonorPage = () => {
     fetchAllSchoolData,
     deleteDonor,
     deleteDonation,
+    updateDonation,
     updateDonor,
   } = useSchoolStore();
 
   const { user, token } = useAuth();
+
+  const {
+    isOpen: isEditDonationModalOpen,
+    onOpen: onEditDonationModalOpen,
+    onClose: onEditDonationModalClose,
+  } = useDisclosure();
+  const [editingDonation, setEditingDonation] = useState(null);
 
   const [loading, setLoading] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
@@ -85,6 +94,10 @@ const DonorPage = () => {
       duration: 4000,
       isClosable: true,
     });
+  };
+  const handleEditDonationClick = (donation) => {
+    setEditingDonation(donation);
+    onEditDonationModalOpen();
   };
 
   const handleEditClick = (donor) => {
@@ -210,15 +223,23 @@ const DonorPage = () => {
                     Amount: ৳{donation.amount.toLocaleString()}
                   </Text>
                   {isAdmin && (
-                    <Button
-                      mt={2}
-                      colorScheme="red"
-                      size="sm"
-                      leftIcon={<DeleteIcon />}
-                      onClick={() => openDeleteDialog(donation.id)}
-                    >
-                      Delete
-                    </Button>
+                    <Flex gap={2}>
+                      <Button
+                        size="sm"
+                        colorScheme="blue"
+                        onClick={() => handleEditDonationClick(donation)}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        size="sm"
+                        colorScheme="red"
+                        leftIcon={<DeleteIcon />}
+                        onClick={() => openDeleteDialog(donation.id)}
+                      >
+                        Delete
+                      </Button>
+                    </Flex>
                   )}
                 </Flex>
 
@@ -296,6 +317,17 @@ const DonorPage = () => {
           onClose={onEditModalClose}
           donor={editingDonor}
           updateDonor={updateDonor}
+          fetchData={fetchAllSchoolData}
+        />
+      )}
+
+      {editingDonation && (
+        <EditDonationModal
+          isOpen={isEditDonationModalOpen}
+          onClose={onEditDonationModalClose}
+          donation={editingDonation}
+          donors={donors}
+          updateDonation={updateDonation}
           fetchData={fetchAllSchoolData}
         />
       )}

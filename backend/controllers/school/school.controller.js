@@ -8,7 +8,6 @@ export const getDonors = async (req, res) => {
   const donors = await Donor.find().lean();
   res.json(donors);
 };
-
 // Add new donor
 export const createDonor = async (req, res) => {
   try {
@@ -53,12 +52,12 @@ export const updateDonor = async (req, res) => {
     });
   }
 };
+
 // Get all donations
 export const getDonations = async (req, res) => {
   const donations = await Donation.find().populate("donorId", "name");
   res.json(donations);
 };
-
 // Add donation
 export const createDonation = async (req, res) => {
   try {
@@ -81,13 +80,41 @@ export const createDonation = async (req, res) => {
     });
   }
 };
+export const updateDonation = async (req, res) => {
+  try {
+    const updatedDonation = await Donation.findByIdAndUpdate(
+      req.params.id,
+      {
+        amount: req.body.amount,
+        date: req.body.date,
+        medium: req.body.medium,
+        donorId: req.body.donorId,
+      },
+      { new: true }
+    ).populate("donorId", "name");
+
+    if (!updatedDonation) {
+      return res.status(404).json({ message: "Donation not found" });
+    }
+
+    res.json({
+      success: true,
+      message: "Donation updated successfully",
+      data: updatedDonation,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
 
 // Get all expenses
 export const getExpenses = async (req, res) => {
   const expenses = await Expense.find().populate("category", "name");
   res.json(expenses);
 };
-
 // Add expense
 export const createExpense = async (req, res) => {
   try {
