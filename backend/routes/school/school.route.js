@@ -12,13 +12,12 @@ import {
   getAllSchoolData,
   getExpenseCategories,
   createExpenseCategory,
+  updateCategory,
   deleteExpense,
   deleteDonor,
   deleteDonation,
   deleteExpenseCategory,
 } from "../../controllers/school/school.controller.js";
-
-import { ExpenseCategory } from "../../models/school/expenseCategory.model.js";
 
 const router = express.Router();
 router.get("/", getAllSchoolData);
@@ -36,6 +35,7 @@ router.put("/donations/:id", updateDonation);
 router.get("/expense-categories", getExpenseCategories);
 router.post("/expense-categories", createExpenseCategory);
 router.delete("/expense-categories/:id", deleteExpenseCategory);
+router.put("/expense-categories/:id", updateCategory);
 
 router.get("/expenses", getExpenses);
 router.post("/expenses", createExpense);

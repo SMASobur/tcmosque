@@ -247,6 +247,21 @@ export const useSchoolStore = create((set) => ({
       return { success: false, message: "Network error creating category" };
     }
   },
+  updateCategory: async (id, data, token) => {
+    try {
+      const response = await fetch(`/api/school/expense-categories/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+      return await response.json();
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  },
 
   deleteExpense: async (expenseId, token) => {
     try {

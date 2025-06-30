@@ -225,6 +225,31 @@ export const createExpenseCategory = async (req, res) => {
     });
   }
 };
+export const updateCategory = async (req, res) => {
+  try {
+    const updatedCategory = await ExpenseCategory.findByIdAndUpdate(
+      req.params.id,
+      { name: req.body.name },
+      { new: true }
+    );
+
+    if (!updatedCategory) {
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    res.json({
+      success: true,
+      message: "Category updated successfully",
+      data: updatedCategory,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export const deleteExpense = async (req, res) => {
   try {
     const deletedExpense = await Expense.findByIdAndDelete(req.params.id);

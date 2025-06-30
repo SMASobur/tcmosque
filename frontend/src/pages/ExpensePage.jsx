@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { EditExpenseModal } from "../components/modals/school/EditExpenseModal";
+import { EditCategoryModal } from "../components/modals/school/EditCategoryModal";
 import {
   Box,
   Heading,
@@ -33,6 +34,11 @@ const ExpensePage = () => {
   const navigate = useNavigate();
 
   const cancelRef = useRef();
+  const {
+    isOpen: isEditCategoryModalOpen,
+    onOpen: onEditCategoryModalOpen,
+    onClose: onEditCategoryModalClose,
+  } = useDisclosure();
 
   const [loading, setLoading] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
@@ -50,6 +56,7 @@ const ExpensePage = () => {
     deleteExpense,
     deleteCategory,
     updateExpense,
+    updateCategory,
   } = useSchoolStore();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -163,8 +170,12 @@ const ExpensePage = () => {
         <Heading mb={4} color={useColorModeValue("orange.400", "orange.300")}>
           {category.name}
         </Heading>
+
         {(user?.role === "admin" || user?.role === "superadmin") && (
           <Box mb={4} textAlign="right">
+            <Button colorScheme="blue" onClick={onEditCategoryModalOpen} mr={3}>
+              Edit Category
+            </Button>
             <Button
               colorScheme="red"
               leftIcon={<DeleteIcon />}
@@ -333,6 +344,16 @@ const ExpensePage = () => {
           expense={editingExpense}
           expenseCategories={expenseCategories}
           updateExpense={updateExpense}
+          fetchData={fetchAllSchoolData}
+        />
+      )}
+
+      {category && (
+        <EditCategoryModal
+          isOpen={isEditCategoryModalOpen}
+          onClose={onEditCategoryModalClose}
+          category={category}
+          updateCategory={updateCategory}
           fetchData={fetchAllSchoolData}
         />
       )}
