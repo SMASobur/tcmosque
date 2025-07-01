@@ -11,6 +11,7 @@ import {
   useDisclosure,
   flexbox,
   Button,
+  Text,
 } from "@chakra-ui/react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 import { ColorModeToggle } from "./ColorModeToggle";
@@ -32,7 +33,6 @@ const BottomNav = () => {
   const isActive = (path) => location.pathname === path;
   const handleLogout = () => {
     logout();
-    navigate("/login");
   };
 
   return (
@@ -98,6 +98,9 @@ const BottomNav = () => {
           <MenuList mb={2} placement="top">
             {user ? (
               <>
+                <Text alignItems="end" align="end" isTruncated maxW="120px">
+                  {user.name}
+                </Text>
                 <MenuItem
                   icon={colorMode === "light" ? <IoMoon /> : <IoSunny />}
                   onClick={toggleColorMode}
