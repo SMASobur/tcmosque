@@ -16,6 +16,7 @@ import {
   useColorModeValue,
   Card,
   VStack,
+  Flex,
 } from "@chakra-ui/react";
 import { useAuth } from "../context/AuthContext";
 
@@ -98,36 +99,41 @@ const ExpensesDetailsPage = () => {
               <Heading size="md" mb={2} color={textColor}>
                 {category.name}
               </Heading>
-              <Text fontSize="sm" mb={2} color={textColor}>
-                Total: ৳{total.toLocaleString()}
-              </Text>
-
-              <Box overflowX="auto">
-                <Table variant="simple" size="sm">
-                  <Thead>
-                    <Tr>
-                      <Th>Date</Th>
-                      <Th>Description</Th>
-                      <Th isNumeric>Amount (৳)</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    {expenses.map((expense) => (
-                      <Tr key={expense._id}>
-                        <Td>{new Date(expense.date).toLocaleDateString()}</Td>
-                        <Td>{expense.description}</Td>
-                        <Td isNumeric>{expense.amount.toLocaleString()}</Td>
+              <Heading size="sm" mb={2} color={textColor}>
+                Total: ৳ {total.toLocaleString()}
+              </Heading>
+              {expenses.length > 0 ? (
+                <Box overflowX="auto">
+                  <Table variant="simple" size="sm">
+                    <Thead>
+                      <Tr>
+                        <Th>Date</Th>
+                        <Th>Description</Th>
+                        <Th isNumeric>Amount (৳)</Th>
                       </Tr>
-                    ))}
-                  </Tbody>
-                </Table>
-              </Box>
+                    </Thead>
+                    <Tbody>
+                      {expenses.map((expense) => (
+                        <Tr key={expense._id}>
+                          <Td>{new Date(expense.date).toLocaleDateString()}</Td>
+                          <Td>{expense.description}</Td>
+                          <Td isNumeric>{expense.amount.toLocaleString()}</Td>
+                        </Tr>
+                      ))}
+                    </Tbody>
+                  </Table>
+                </Box>
+              ) : (
+                <Text textAlign="center" color="gray.500" py={4}>
+                  No expenses found
+                </Text>
+              )}
             </Box>
           ))}
         </VStack>
 
         <Text mt="4" textAlign="right" fontWeight="bold" color={textColor}>
-          Total Expenses: ৳{totalExpenses.toLocaleString()}
+          Total Expenses: ৳ {totalExpenses.toLocaleString()}
         </Text>
       </Card>
     </Box>

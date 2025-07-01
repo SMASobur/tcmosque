@@ -222,6 +222,7 @@ const AdminDashboard = () => {
                     {index + 1}
                   </td>
                   <td className="border border-gray-300 text-center break-words">
+                    {u.name}
                     {u.role === "superadmin" && (
                       <span className="ml-2 text-xs bg-red-500 text-white px-2 py-0.5 rounded">
                         SUPER

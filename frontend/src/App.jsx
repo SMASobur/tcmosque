@@ -1,8 +1,9 @@
-import { Box, useColorModeValue } from "@chakra-ui/react";
+import { Box, useColorModeValue, useBreakpointValue } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
 import Navbar from "./components/Navbar";
+import BottomNav from "./components/BottomNav";
 import StoreCardView from "./pages/StoreCardView";
 import AboutPage from "./pages/AboutPage";
 import Footer from "./components/Footer";
@@ -18,6 +19,7 @@ import FinancePage from "./pages/FinancePage";
 import ExpensesDetailsPage from "./pages/ExpensesDeteailsPage";
 
 function App() {
+  const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <>
       <Box minH="100vh" bg={useColorModeValue("gray.200", "gray.500")}>
@@ -49,8 +51,10 @@ function App() {
             }
           /> */}
         </Routes>
+        <Box pb={isMobile ? "60px" : "0"} />
       </Box>
       <Footer />
+      {isMobile && <BottomNav />}
     </>
   );
 }
