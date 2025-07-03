@@ -17,32 +17,41 @@ import DonationPage from "./pages/DonationPage";
 import ExpensesPage from "./pages/ExpensesPage";
 import FinancePage from "./pages/FinancePage";
 import ExpensesDetailsPage from "./pages/ExpensesDeteailsPage";
+import GalleryPage from "./pages/GalleryPage";
 
 function App() {
   const isMobile = useBreakpointValue({ base: true, md: false });
   return (
     <>
-      <Box minH="100vh" bg={useColorModeValue("gray.200", "gray.500")}>
+      <Box
+        minH="100vh"
+        bg={useColorModeValue("gray.200", "gray.500")}
+        display="flex"
+        flexDirection="column"
+        position="relative"
+      >
         <Navbar />
-        <Routes>
-          {/* Public Routes */}
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/cards" element={<StoreCardView />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/donors/:id" element={<DonorPage />} />
-          <Route path="/categories/:id" element={<ExpensePage />} />
-          <Route path="/donations" element={<DonationPage />} />
-          <Route path="/expenses" element={<ExpensesPage />} />
-          <Route path="/finance" element={<FinancePage />} />
-          <Route path="/expenses-details" element={<ExpensesDetailsPage />} />
+        <Box flex="1">
+          <Routes>
+            {/* Public Routes */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/cards" element={<StoreCardView />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/donors/:id" element={<DonorPage />} />
+            <Route path="/categories/:id" element={<ExpensePage />} />
+            <Route path="/donations" element={<DonationPage />} />
+            <Route path="/expenses" element={<ExpensesPage />} />
+            <Route path="/finance" element={<FinancePage />} />
+            <Route path="/expenses-details" element={<ExpensesDetailsPage />} />
+            <Route path="/gallery" element={<GalleryPage />} />
 
-          {/* Private Routes */}
+            {/* Private Routes */}
 
-          {/* <Route
+            {/* <Route
             path="/my-books"
             element={
               <PrivateRoute>
@@ -50,11 +59,18 @@ function App() {
               </PrivateRoute>
             }
           /> */}
-        </Routes>
-        <Box pb={isMobile ? "60px" : "0"} />
+          </Routes>
+        </Box>
+
+        <Box pb={isMobile ? "70px" : "0"}>
+          <Footer />
+        </Box>
       </Box>
-      <Footer />
-      {isMobile && <BottomNav />}
+      {isMobile && (
+        <Box position="fixed" bottom="0" left="0" right="0" zIndex="sticky">
+          <BottomNav />
+        </Box>
+      )}
     </>
   );
 }

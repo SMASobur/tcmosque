@@ -43,6 +43,7 @@ const BottomNav = () => {
       right="0"
       bg={bgColor}
       p={2}
+      py="4"
       boxShadow="lg"
       zIndex="sticky"
       borderTop="1px"
@@ -108,6 +109,9 @@ const BottomNav = () => {
                 >
                   {colorMode === "light" ? "Dark Mode" : "Light Mode"}
                 </MenuItem>
+                <MenuItem as={RouterLink} to="/gallery">
+                  📸 Gallery
+                </MenuItem>
                 <MenuItem as={RouterLink} to="/profile">
                   👨‍🔧 Profile
                 </MenuItem>
@@ -131,6 +135,9 @@ const BottomNav = () => {
                   closeOnSelect={false}
                 >
                   {colorMode === "light" ? "Dark Mode" : "Light Mode"}
+                </MenuItem>
+                <MenuItem as={RouterLink} to="/gallery">
+                  📸 Gallery
                 </MenuItem>
                 <MenuItem as={RouterLink} to="/login">
                   🚪 Login

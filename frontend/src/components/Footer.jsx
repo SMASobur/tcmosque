@@ -12,10 +12,10 @@ const Footer = () => {
   return (
     <Box
       as="footer"
-      py={4}
+      py={2}
       bg={useColorModeValue("gray.300", "gray.700")}
       color={useColorModeValue("gray.700", "gray.200")}
-      mt={0}
+      mt={1}
       textAlign="center"
     >
       <Stack spacing={2}>

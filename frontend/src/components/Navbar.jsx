@@ -90,6 +90,9 @@ const Navbar = () => {
               <RouterLink to="/finance">
                 <Button>🕌 Finance</Button>
               </RouterLink>
+              <RouterLink to="/gallery">
+                <Button>📸 Gallery</Button>
+              </RouterLink>
 
               <Box ml="auto">
                 <ColorModeToggle />
@@ -152,6 +155,9 @@ const Navbar = () => {
                   <MenuList>
                     <MenuItem as={RouterLink} to="/finance">
                       🕌 Finance
+                    </MenuItem>
+                    <MenuItem as={RouterLink} to="/gallery">
+                      📸 Gallery
                     </MenuItem>
                     <MenuItem as={RouterLink} to="/profile">
                       👨‍🔧 Profile
