@@ -10,98 +10,137 @@ import {
   Image,
   Text,
   useColorModeValue,
+  Spinner,
+  Link,
+  Flex,
+  IconButton,
 } from "@chakra-ui/react";
+import axios from "axios";
+import { useAuth } from "../context/AuthContext";
+import { Link as RouterLink } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { PlusSquareIcon } from "@chakra-ui/icons";
+import { GiRayGun } from "react-icons/gi";
 
 const GalleryPage = () => {
-  const bgColor = useColorModeValue("gray.50", "gray.800");
-  const tabColor = useColorModeValue("blue.500", "blue.200");
+  const bgColor = useColorModeValue("gray.50", "gray.700");
+  const tabColor = useColorModeValue("orange.500", "orange.200");
+  const { user } = useAuth();
+  const [processPhotos, setProcessPhotos] = useState([]);
+  const [modelImages, setModelImages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Sample data - replace with your actual images
-  const processPhotos = [
-    { id: 1, src: "fav.png", caption: "Construction Phase 1" },
-    { id: 2, src: "fav1.png", caption: "Foundation Work" },
-    { id: 2, src: "fav1.png", caption: "Foundation Work" },
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const res = await axios.get("/api/gallery"); // or your full backend URL
+        const process = res.data.filter((img) => img.category === "process");
+        const models = res.data.filter((img) => img.category === "3d-model");
 
-    // Add more process photos
-  ];
+        setProcessPhotos(process);
+        setModelImages(models);
+      } catch (err) {
+        console.error("Failed to load gallery", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const modelImages = [
-    { id: 1, src: "fav.png", caption: "3D Front View" },
-    { id: 2, src: "fav1.png", caption: "Aerial Perspective" },
-    { id: 1, src: "fav.png", caption: "3D Front View" },
-    // Add more 3D images
-  ];
+    fetchGallery();
+  }, []);
 
   return (
     <Box p={4} minH="100vh" bg={bgColor}>
-      <Heading textAlign="center" mb={8} size="xl">
-        Masjid Gallery
-      </Heading>
+      <Flex justify="space-between" align="center" mb={8}>
+        <Heading
+          size="xl"
+          flex="1"
+          textAlign="center"
+          color={useColorModeValue("orange.500", "orange.300")}
+        >
+          Masjid Gallery
+        </Heading>
+        {user && (
+          <IconButton
+            as={RouterLink}
+            to="/upload-gallery"
+            aria-label="Upload to gallery"
+            icon={<PlusSquareIcon boxSize={6} />}
+            variant="ghost"
+            color={useColorModeValue("orange.500", "orange.300")}
+            ml={4} // Add some spacing between heading and icon
+          />
+        )}
+      </Flex>
 
-      <Tabs variant="soft-rounded" colorScheme="blue" align="center">
-        <TabList>
-          <Tab _selected={{ color: "white", bg: tabColor }} mx={2}>
-            Construction Process
-          </Tab>
-          <Tab _selected={{ color: "white", bg: tabColor }} mx={2}>
-            3D Models
-          </Tab>
-        </TabList>
+      {loading ? (
+        <Box textAlign="center" mt={20}>
+          <Spinner size="xl" color="blue.500" />
+        </Box>
+      ) : (
+        <Tabs variant="soft-rounded" align="center">
+          <TabList>
+            <Tab _selected={{ color: "white", bg: tabColor }} mx={2}>
+              Construction Process
+            </Tab>
+            <Tab _selected={{ color: "white", bg: tabColor }} mx={2}>
+              3D Models
+            </Tab>
+          </TabList>
 
-        <TabPanels mt={6}>
-          {/* Process Photos Tab */}
-          <TabPanel>
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-              {processPhotos.map((photo) => (
-                <Box
-                  key={photo.id}
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  overflow="hidden"
-                  boxShadow="md"
-                >
-                  <Image
-                    src={photo.src}
-                    alt={photo.caption}
-                    objectFit="cover"
-                    w="100%"
-                    h="300px"
-                  />
-                  <Box p={4}>
-                    <Text fontWeight="semibold">{photo.caption}</Text>
+          <TabPanels mt={6}>
+            <TabPanel>
+              <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
+                {processPhotos.map((photo) => (
+                  <Box
+                    key={photo._id}
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    overflow="hidden"
+                    boxShadow="md"
+                  >
+                    <Image
+                      src={photo.imageUrl}
+                      alt={photo.caption}
+                      objectFit="cover"
+                      w="100%"
+                      h="300px"
+                    />
+                    <Box p={4}>
+                      <Text fontWeight="semibold">{photo.caption}</Text>
+                    </Box>
                   </Box>
-                </Box>
-              ))}
-            </SimpleGrid>
-          </TabPanel>
+                ))}
+              </SimpleGrid>
+            </TabPanel>
 
-          {/* 3D Images Tab */}
-          <TabPanel>
-            <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
-              {modelImages.map((model) => (
-                <Box
-                  key={model.id}
-                  borderWidth="1px"
-                  borderRadius="lg"
-                  overflow="hidden"
-                  boxShadow="md"
-                >
-                  <Image
-                    src={model.src}
-                    alt={model.caption}
-                    objectFit="cover"
-                    w="100%"
-                    h="300px"
-                  />
-                  <Box p={4}>
-                    <Text fontWeight="semibold">{model.caption}</Text>
+            <TabPanel>
+              <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
+                {modelImages.map((model) => (
+                  <Box
+                    key={model._id}
+                    borderWidth="1px"
+                    borderRadius="lg"
+                    overflow="hidden"
+                    boxShadow="md"
+                  >
+                    <Image
+                      src={model.imageUrl}
+                      alt={model.caption}
+                      objectFit="cover"
+                      w="100%"
+                      h="300px"
+                    />
+                    <Box p={4}>
+                      <Text fontWeight="semibold">{model.caption}</Text>
+                    </Box>
                   </Box>
-                </Box>
-              ))}
-            </SimpleGrid>
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
+                ))}
+              </SimpleGrid>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      )}
     </Box>
   );
 };

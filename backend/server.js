@@ -9,6 +9,7 @@ import productRoutes from "./routes/product.route.js";
 import authRoutes from "./routes/auth.route.js";
 import adminRoutes from "./routes/admin.route.js";
 import schoolRoutes from "./routes/school/school.route.js";
+import galleryRoutes from "./routes/gallery.route.js";
 
 connectDB();
 const app = express();
@@ -23,6 +24,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/school", schoolRoutes);
+app.use("/api/gallery", galleryRoutes);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));

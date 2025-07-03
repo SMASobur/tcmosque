@@ -18,6 +18,7 @@ import ExpensesPage from "./pages/ExpensesPage";
 import FinancePage from "./pages/FinancePage";
 import ExpensesDetailsPage from "./pages/ExpensesDeteailsPage";
 import GalleryPage from "./pages/GalleryPage";
+import GalleryUpload from "./pages/GalleryUpload";
 
 function App() {
   const isMobile = useBreakpointValue({ base: true, md: false });
@@ -48,6 +49,7 @@ function App() {
             <Route path="/finance" element={<FinancePage />} />
             <Route path="/expenses-details" element={<ExpensesDetailsPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/upload-gallery" element={<GalleryUpload />} />
 
             {/* Private Routes */}
 
