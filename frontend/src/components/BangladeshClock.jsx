@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { Text, Box, useColorModeValue, Flex } from "@chakra-ui/react";
+import { Text, Box, useColorModeValue, Flex, Tooltip } from "@chakra-ui/react";
 
 const BangladeshClock = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [hijriDate, setHijriDate] = useState("");
+  const [banglaDate, setBanglaDate] = useState("");
 
   useEffect(() => {
     const updateDateTime = () => {
@@ -16,8 +17,11 @@ const BangladeshClock = () => {
         month: "long",
         year: "numeric",
       }).format(now);
-
       setHijriDate(hijri.replace("AH", "Hijri"));
+
+      // Format Bengali date
+      const bangla = convertToBanglaDate(now);
+      setBanglaDate(bangla);
     };
 
     updateDateTime();
@@ -25,6 +29,49 @@ const BangladeshClock = () => {
 
     return () => clearInterval(timer);
   }, []);
+
+  // Convert Gregorian date to Bengali date
+  const convertToBanglaDate = (date) => {
+    const banglaMonths = [
+      "বৈশাখ",
+      "জ্যৈষ্ঠ",
+      "আষাঢ়",
+      "শ্রাবণ",
+      "ভাদ্র",
+      "আশ্বিন",
+      "কার্তিক",
+      "অগ্রহায়ণ",
+      "পৌষ",
+      "মাঘ",
+      "ফাল্গুন",
+      "চৈত্র",
+    ];
+
+    const banglaDays = [
+      "রবিবার",
+      "সোমবার",
+      "মঙ্গলবার",
+      "বুধবার",
+      "বৃহস্পতিবার",
+      "শুক্রবার",
+      "শনিবার",
+    ];
+
+    // Simple conversion (approximate)
+    const day = date.getDay();
+    const banglaYear = date.getFullYear() - 593;
+    let banglaMonth = date.getMonth();
+    let banglaDay = date.getDate();
+
+    // Adjust for Bengali calendar starting mid-April
+    if (date.getMonth() < 3 || (date.getMonth() === 3 && date.getDate() < 14)) {
+      banglaMonth = (date.getMonth() + 8) % 12;
+    } else {
+      banglaMonth = (date.getMonth() + 9) % 12;
+    }
+
+    return `${banglaDays[day]}, ${banglaDay} ${banglaMonths[banglaMonth]}, ${banglaYear}`;
+  };
 
   const timeString = currentTime.toLocaleTimeString("en-BD", {
     timeZone: "Asia/Dhaka",
@@ -62,16 +109,23 @@ const BangladeshClock = () => {
         {timeString}
       </Text>
 
-      <Flex
-        direction={{ base: "column", sm: "row" }}
-        justify="center"
-        align="center"
-        gap={2}
-      >
-        <Text fontSize="sm">{dateString}</Text>|
-        <Text fontSize="sm" fontWeight="medium">
-          {hijriDate}
-        </Text>
+      <Flex direction="column" gap={1}>
+        <Flex justify="center" align="center" gap={2} wrap="wrap">
+          <Tooltip label="Gregorian Date">
+            <Text fontSize="sm">{dateString}</Text>
+          </Tooltip>
+          <Text>|</Text>
+          <Tooltip label="বাংলা তারিখ">
+            <Text fontSize="sm" fontFamily="sans-serif">
+              {banglaDate} বঙ্গাব্দ
+            </Text>
+          </Tooltip>
+        </Flex>
+        <Tooltip label="হিজরি তারিখ">
+          <Text fontSize="sm" fontWeight="medium">
+            {hijriDate}
+          </Text>
+        </Tooltip>
       </Flex>
     </Box>
   );

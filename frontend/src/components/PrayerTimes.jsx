@@ -11,7 +11,6 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-
 import BangladeshClock from "../components/BangladeshClock";
 import axios from "axios";
 import { FaMosque, FaClock } from "react-icons/fa";
@@ -37,6 +36,16 @@ const PrayerTimes = () => {
     md: "500px",
     lg: "600px",
   });
+
+  // Convert 24-hour time to 12-hour format with AM/PM
+  const formatTime12Hour = (time24) => {
+    if (!time24) return "";
+    const [hours, minutes] = time24.split(":");
+    const hour = parseInt(hours, 10);
+    const period = hour >= 12 ? "PM" : "AM";
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minutes} ${period}`;
+  };
 
   useEffect(() => {
     const fetchTimes = async () => {
@@ -112,7 +121,7 @@ const PrayerTimes = () => {
             <HStack>
               <Icon as={FaClock} color={timeColor} />
               <Text fontFamily="mono" color={timeColor}>
-                {times[name]}
+                {formatTime12Hour(times[name])}
               </Text>
             </HStack>
           </HStack>
