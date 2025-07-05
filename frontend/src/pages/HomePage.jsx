@@ -119,10 +119,14 @@ const SchoolPage = () => {
           height={isMobile ? "200px" : "300px"}
           borderRadius="md"
           boxShadow="sm"
+          filter="drop-shadow(0 15px 15px rgba(0, 0, 0, 0.45))"
         />
 
         {/* Mosque Details (stacked vertically) */}
-        <Stack spacing={isMobile ? 2 : 3}>
+        <Stack
+          spacing={isMobile ? 2 : 3}
+          filter="drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45))"
+        >
           <Heading
             as="b"
             fontSize={isMobile ? "3xl" : "5xl"} // Smaller on mobile
@@ -366,44 +370,6 @@ const SchoolPage = () => {
               View
             </Link>
           </Box>
-        </Flex>
-      </Card>
-
-      <Card bg={cardBg} p={4}>
-        <Heading
-          size="sm"
-          mb={4}
-          color={useColorModeValue("gray.800", "whiteAlpha.900")}
-        >
-          Mosque 3D Images
-        </Heading>
-        <Flex
-          alignItems={"center"}
-          justifyContent={{
-            base: "center",
-            sm: "space-between",
-          }}
-          flexDir={{
-            base: "column",
-            sm: "row",
-          }}
-          gap={{ base: 4, sm: 0 }}
-        >
-          <Image
-            src="fav.png" // Replace with your actual image URL
-            alt="Mosque Construction Progress"
-            objectFit="cover"
-            width="200px"
-            height="200px"
-          />
-
-          <Image
-            src="fav1.png" // Replace with your actual image URL
-            alt="Mosque Construction Progress"
-            objectFit="cover"
-            width="250px"
-            height="200px"
-          />
         </Flex>
       </Card>
     </Box>

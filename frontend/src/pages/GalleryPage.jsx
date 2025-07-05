@@ -70,7 +70,7 @@ const GalleryPage = () => {
   useEffect(() => {
     const fetchGallery = async () => {
       try {
-        const res = await axios.get("/api/gallery"); // or your full backend URL
+        const res = await axios.get("/api/gallery");
         const process = res.data.filter((img) => img.category === "process");
         const models = res.data.filter((img) => img.category === "3d-model");
 
@@ -143,14 +143,6 @@ const GalleryPage = () => {
                     <Flex justify="space-between" align="center" px={4} py={2}>
                       <Text fontWeight="semibold">{photo.caption}</Text>
                       {user && (
-                        // <IconButton
-                        //   icon={<DeleteIcon />}
-                        //   colorScheme="red"
-                        //   variant="ghost"
-                        //   size="sm"
-                        //   aria-label="Delete"
-                        //   onClick={() => handleDelete(photo._id)}
-                        // />
                         <Button
                           mt={2}
                           colorScheme="red"

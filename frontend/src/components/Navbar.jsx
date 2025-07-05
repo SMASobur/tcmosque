@@ -64,10 +64,12 @@ const Navbar = () => {
                 mr={2}
               />
               <Text
-                fontSize={{ base: "xl", md: "3xl" }}
-                fontWeight="bold"
-                bgGradient="linear(to-r, orange.400, yellow.400)"
+                fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
+                fontWeight="extrabold"
+                bgGradient="linear(to-r, orange.500, yellow.400)"
                 bgClip="text"
+                textAlign="center"
+                letterSpacing="tighter"
               >
                 Baitun Noor Jame Masjid
                 {user?.role === "admin" && (

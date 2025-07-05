@@ -11,6 +11,8 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+
+import BangladeshClock from "../components/BangladeshClock";
 import axios from "axios";
 import { FaMosque, FaClock } from "react-icons/fa";
 
@@ -85,7 +87,7 @@ const PrayerTimes = () => {
 
       {date && (
         <Text textAlign="center" color={textSecondary} mb={4}>
-          {date.gregorian.date} | {date.hijri.date}
+          <BangladeshClock />
         </Text>
       )}
 
