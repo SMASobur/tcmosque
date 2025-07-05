@@ -8,6 +8,7 @@ import PrayerTimes from "../components/PrayerTimes";
 import { useSchoolStore } from "../store/school";
 import { FaDonate } from "react-icons/fa";
 import { GiExpense } from "react-icons/gi";
+import { FcGallery } from "react-icons/fc";
 import { MdAccountBalance } from "react-icons/md";
 import {
   Box,
@@ -30,6 +31,7 @@ import {
   Tr,
   Th,
   Td,
+  Button,
 } from "@chakra-ui/react";
 import { useAuth } from "../context/AuthContext";
 
@@ -110,6 +112,30 @@ const SchoolPage = () => {
         p={isMobile ? 4 : 6} // Responsive padding
         mb={4}
       >
+        <Box
+          position="relative" // Needed for absolute positioning of child
+          width="100%"
+          display={{ base: "block", md: "none" }}
+        >
+          <Text
+            fontSize={isMobile ? "2xl" : "4xl"}
+            color={useColorModeValue("orange.600", "orange.300")}
+            fontStyle="italic"
+            fontWeight="semibold"
+            borderColor={useColorModeValue("orange.300", "orange.500")}
+            px={2}
+            pb={1}
+            display="inline-block"
+            position={{ base: "absolute", md: "static" }}
+            top={{ base: 0, md: "auto" }}
+            right={{ base: 0, md: "auto" }}
+            textAlign={{ base: "right", md: "left" }}
+            mt={{ base: 2, md: 0 }}
+            filter="drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45))"
+          >
+            স্থাপিত: ১৯৮৬
+          </Text>
+        </Box>
         {/* Mosque Image (centered on mobile) */}
         <Image
           src="fav.png"
@@ -140,20 +166,26 @@ const SchoolPage = () => {
             fontSize={isMobile ? "xl" : "3xl"} // Responsive font size
             color={useColorModeValue("gray.700", "gray.200")}
           >
-            তিলকচাঁন পুর (কেন্দ্রীয় মসজিদ)
+            তিলকচাঁন পুর।
           </Text>
 
           <Text
             fontSize={isMobile ? "lg" : "2xl"}
             color={useColorModeValue("gray.600", "gray.300")}
           >
-            বালাগঞ্জ, সিলেট।
+            বালাগঞ্জ-৩১২০, সিলেট।
           </Text>
 
           <Text
-            fontSize={isMobile ? "md" : "xl"}
-            color={useColorModeValue("gray.500", "gray.300")}
+            fontSize={isMobile ? "2xl" : "3xl"}
+            color={useColorModeValue("orange.600", "orange.300")}
             fontStyle="italic"
+            fontWeight="semibold"
+            borderBottom="2px solid"
+            borderColor={useColorModeValue("orange.300", "orange.500")}
+            px={2}
+            pb={1}
+            display={{ base: "none", md: "block" }}
           >
             স্থাপিত: ১৯৮৬
           </Text>
@@ -186,14 +218,10 @@ const SchoolPage = () => {
             >
               {donations.length} transactions
             </Text>
-            <Link
-              as={RouterLink}
-              to="/donations"
-              color={useColorModeValue("teal.500", "teal.300")}
-              mt={2}
-              display="block"
-            >
-              View Details
+            <Link as={RouterLink} to="/donations" mt={2} display="block">
+              <Button mt={4} colorScheme="orange" size="sm" variant="outline">
+                View Details
+              </Button>
             </Link>
           </CardBody>
         </Card>
@@ -216,14 +244,10 @@ const SchoolPage = () => {
             >
               {expenses.length} transactions
             </Text>
-            <Link
-              as={RouterLink}
-              to="/expenses"
-              color={useColorModeValue("teal.500", "teal.300")}
-              mt={2}
-              display="block"
-            >
-              View Details
+            <Link as={RouterLink} to="/expenses" mt={2} display="block">
+              <Button mt={4} colorScheme="orange" size="sm" variant="outline">
+                View Details
+              </Button>
             </Link>
           </CardBody>
         </Card>
@@ -367,10 +391,78 @@ const SchoolPage = () => {
               color={useColorModeValue("teal.500", "teal.300")}
               fontWeight="medium"
             >
-              View
+              <Button mt={4} colorScheme="orange" size="sm" variant="outline">
+                View Finance Overview
+              </Button>
             </Link>
           </Box>
         </Flex>
+      </Card>
+      {/* <Card
+        bg={cardBg}
+        border="1px"
+        borderColor={borderColor}
+        as={RouterLink}
+        to="/gallery"
+        _hover={{
+          transform: "scale(1.02)",
+          boxShadow: "lg",
+          transition: "all 0.2s",
+        }}
+      >
+        <CardBody textAlign="center">
+          <Image
+            src="gallery-preview.jpg" // Replace with your gallery thumbnail
+            alt="Mosque Gallery"
+            borderRadius="md"
+            mb={3}
+            objectFit="cover"
+            height="120px"
+            width="100%"
+          />
+          <Heading
+            size="md"
+            color={useColorModeValue("purple.600", "purple.300")}
+          >
+            Mosque Gallery
+          </Heading>
+          <Text fontSize="sm" color={textColor} mt={2}>
+            View photos of our mosque
+          </Text>
+          <Text
+            fontSize="xs"
+            color={useColorModeValue("gray.500", "gray.400")}
+            mt={2}
+          >
+            {/* {photosCount} photos available 
+          </Text>
+        </CardBody>
+      </Card> */}
+      <Card bg={cardBg} border="1px" borderColor={borderColor}>
+        <CardBody
+          textAlign="center"
+          as={RouterLink}
+          to="/gallery"
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          justifyContent="center"
+          minH="200px"
+        >
+          <Icon
+            as={FcGallery}
+            boxSize={12}
+            mb={4}
+            color={useColorModeValue("purple.500", "purple.300")}
+          />
+          <Heading size="md">Photo Gallery</Heading>
+          <Text mt={2} color={textColor}>
+            Explore mosque construction progress
+          </Text>
+          <Button mt={4} colorScheme="orange" size="sm" variant="outline">
+            View Gallery
+          </Button>
+        </CardBody>
       </Card>
     </Box>
   );

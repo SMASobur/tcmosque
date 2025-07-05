@@ -8,13 +8,9 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  useDisclosure,
-  flexbox,
-  Button,
   Text,
 } from "@chakra-ui/react";
 import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
-import { ColorModeToggle } from "./ColorModeToggle";
 import { FiHome, FiPieChart, FiMenu } from "react-icons/fi";
 import { FaDonate } from "react-icons/fa";
 import { GiExpense } from "react-icons/gi";
