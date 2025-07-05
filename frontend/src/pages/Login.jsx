@@ -13,7 +13,6 @@ import {
   CardBody,
 } from "@chakra-ui/react";
 import { CiLogin } from "react-icons/ci";
-import { FiCopy } from "react-icons/fi";
 import { IconButton, useToast, Flex } from "@chakra-ui/react";
 
 export default function Login() {

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { Bar, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, registerables } from "chart.js";
 ChartJS.register(...registerables);
+
+import PrayerTimes from "../components/PrayerTimes";
 
 import { useSchoolStore } from "../store/school";
 import { FaDonate } from "react-icons/fa";
@@ -153,6 +154,9 @@ const SchoolPage = () => {
             স্থাপিত: ১৯৮৬
           </Text>
         </Stack>
+      </Box>
+      <Box mb={4}>
+        <PrayerTimes />
       </Box>
 
       {/* Summary Cards */}

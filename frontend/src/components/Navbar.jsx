@@ -93,6 +93,11 @@ const Navbar = () => {
               <RouterLink to="/gallery">
                 <Button>📸 Gallery</Button>
               </RouterLink>
+              {!user && (
+                <RouterLink to="/about">
+                  <Button>👨‍💻 </Button>
+                </RouterLink>
+              )}
 
               <Box ml="auto">
                 <ColorModeToggle />
@@ -143,6 +148,11 @@ const Navbar = () => {
               <Box ml="auto">
                 <ColorModeToggle />
               </Box>
+              {!user && (
+                <RouterLink to="/about">
+                  <Button>👨‍💻 </Button>
+                </RouterLink>
+              )}
 
               {user ? (
                 <Menu>
