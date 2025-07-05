@@ -116,7 +116,7 @@ const GalleryUpload = () => {
         </Select>
 
         <Button colorScheme="orange" onClick={handleImageUpload}>
-          Upload Image
+          Upload Photo
         </Button>
       </VStack>
     </Box>

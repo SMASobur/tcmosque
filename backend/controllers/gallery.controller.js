@@ -19,3 +19,16 @@ export const addGalleryItem = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
+export const deleteGalleryImage = async (req, res) => {
+  try {
+    const deleted = await Gallery.findByIdAndDelete(req.params.id);
+    if (!deleted) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+    res.json({ message: "Image deleted successfully" });
+  } catch (error) {
+    console.error("Delete error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};

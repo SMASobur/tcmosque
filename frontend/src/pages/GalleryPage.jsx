@@ -11,16 +11,21 @@ import {
   Text,
   useColorModeValue,
   Spinner,
-  Link,
   Flex,
-  IconButton,
+  Button,
+  useToast,
+  AlertDialog,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { Link as RouterLink } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { PlusSquareIcon } from "@chakra-ui/icons";
-import { GiRayGun } from "react-icons/gi";
+import { useEffect, useState, useRef } from "react";
+import { DeleteIcon, PlusSquareIcon } from "@chakra-ui/icons";
 
 const GalleryPage = () => {
   const bgColor = useColorModeValue("gray.50", "gray.700");
@@ -29,6 +34,38 @@ const GalleryPage = () => {
   const [processPhotos, setProcessPhotos] = useState([]);
   const [modelImages, setModelImages] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState(null);
+  const cancelRef = useRef();
+
+  const toast = useToast();
+  const handleDelete = async () => {
+    try {
+      await axios.delete(`/api/gallery/${deletingId}`);
+      setProcessPhotos((prev) => prev.filter((img) => img._id !== deletingId));
+      setModelImages((prev) => prev.filter((img) => img._id !== deletingId));
+
+      toast({
+        title: "Deleted",
+        description: "Image removed successfully.",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+      });
+    } catch (err) {
+      console.error("Error deleting image:", err);
+      toast({
+        title: "Error",
+        description: "Failed to delete image.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setIsDialogOpen(false);
+      setDeletingId(null);
+    }
+  };
 
   useEffect(() => {
     const fetchGallery = async () => {
@@ -52,24 +89,21 @@ const GalleryPage = () => {
   return (
     <Box p={4} minH="100vh" bg={bgColor}>
       <Flex justify="space-between" align="center" mb={8}>
-        <Heading
-          size="xl"
-          flex="1"
-          textAlign="center"
-          color={useColorModeValue("orange.500", "orange.300")}
-        >
+        <Heading size="xl" flex="1" textAlign="center">
           Masjid Gallery
         </Heading>
         {user && (
-          <IconButton
+          <Button
             as={RouterLink}
             to="/upload-gallery"
-            aria-label="Upload to gallery"
-            icon={<PlusSquareIcon boxSize={6} />}
+            leftIcon={<PlusSquareIcon boxSize={5} />}
+            colorScheme="orange"
             variant="ghost"
-            color={useColorModeValue("orange.500", "orange.300")}
-            ml={4} // Add some spacing between heading and icon
-          />
+            ml={4}
+            size="md"
+          >
+            Add Photo
+          </Button>
         )}
       </Flex>
 
@@ -106,9 +140,31 @@ const GalleryPage = () => {
                       w="100%"
                       h="300px"
                     />
-                    <Box p={4}>
+                    <Flex justify="space-between" align="center" px={4} py={2}>
                       <Text fontWeight="semibold">{photo.caption}</Text>
-                    </Box>
+                      {user && (
+                        // <IconButton
+                        //   icon={<DeleteIcon />}
+                        //   colorScheme="red"
+                        //   variant="ghost"
+                        //   size="sm"
+                        //   aria-label="Delete"
+                        //   onClick={() => handleDelete(photo._id)}
+                        // />
+                        <Button
+                          mt={2}
+                          colorScheme="red"
+                          size="sm"
+                          onClick={() => {
+                            setDeletingId(photo._id); // or model._id
+                            setIsDialogOpen(true);
+                          }}
+                          leftIcon={<DeleteIcon />}
+                        >
+                          Delete
+                        </Button>
+                      )}
+                    </Flex>
                   </Box>
                 ))}
               </SimpleGrid>
@@ -131,9 +187,23 @@ const GalleryPage = () => {
                       w="100%"
                       h="300px"
                     />
-                    <Box p={4}>
+
+                    <Flex justify="space-between" align="center" px={4} py={2}>
                       <Text fontWeight="semibold">{model.caption}</Text>
-                    </Box>
+                      {user && (
+                        <Button
+                          mt={2}
+                          colorScheme="red"
+                          size="sm"
+                          onClick={() => {
+                            setDeletingId(model._id);
+                            setIsDialogOpen(true);
+                          }}
+                        >
+                          Delete
+                        </Button>
+                      )}
+                    </Flex>
                   </Box>
                 ))}
               </SimpleGrid>
@@ -141,6 +211,33 @@ const GalleryPage = () => {
           </TabPanels>
         </Tabs>
       )}
+
+      <AlertDialog
+        isOpen={isDialogOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={() => setIsDialogOpen(false)}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Delete Image
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Are you sure? This action cannot be undone.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} onClick={() => setIsDialogOpen(false)}>
+                Cancel
+              </Button>
+              <Button colorScheme="red" onClick={handleDelete} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Box>
   );
 };
