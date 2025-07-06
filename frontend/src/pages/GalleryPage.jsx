@@ -20,6 +20,11 @@ import {
   AlertDialogHeader,
   AlertDialogBody,
   AlertDialogFooter,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
@@ -28,17 +33,33 @@ import { useEffect, useState, useRef } from "react";
 import { DeleteIcon, PlusSquareIcon } from "@chakra-ui/icons";
 
 const GalleryPage = () => {
-  const bgColor = useColorModeValue("gray.50", "gray.700");
+  const bgColor = useColorModeValue("gray.100", "gray.500");
   const tabColor = useColorModeValue("orange.500", "orange.200");
   const { user } = useAuth();
   const [processPhotos, setProcessPhotos] = useState([]);
   const [modelImages, setModelImages] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [deletingId, setDeletingId] = useState(null);
+
+  // Lightbox states
+  const {
+    isOpen: isLightboxOpen,
+    onOpen: openLightbox,
+    onClose: closeLightbox,
+  } = useDisclosure();
+  const [selectedImage, setSelectedImage] = useState("");
+  const [selectedCaption, setSelectedCaption] = useState("");
+
+  // Delete dialog states
+  const {
+    isOpen: isDialogOpen,
+    onOpen: openDialog,
+    onClose: closeDialog,
+  } = useDisclosure();
   const cancelRef = useRef();
 
   const toast = useToast();
+
   const handleDelete = async () => {
     try {
       await axios.delete(`/api/gallery/${deletingId}`);
@@ -62,9 +83,15 @@ const GalleryPage = () => {
         isClosable: true,
       });
     } finally {
-      setIsDialogOpen(false);
+      closeDialog();
       setDeletingId(null);
     }
+  };
+
+  const openImage = (imageUrl, caption) => {
+    setSelectedImage(imageUrl);
+    setSelectedCaption(caption);
+    openLightbox();
   };
 
   useEffect(() => {
@@ -156,7 +183,8 @@ const GalleryPage = () => {
                     borderRadius="lg"
                     overflow="hidden"
                     boxShadow="md"
-                    bg={useColorModeValue("white", "gray.800")}
+                    bg={useColorModeValue("white", "gray.600")}
+                    cursor="pointer"
                   >
                     <Image
                       src={photo.imageUrl}
@@ -164,6 +192,7 @@ const GalleryPage = () => {
                       objectFit="cover"
                       w="100%"
                       h="300px"
+                      onClick={() => openImage(photo.imageUrl, photo.caption)}
                     />
                     <Flex justify="space-between" align="center" px={4} py={2}>
                       <Text fontWeight="semibold">{photo.caption}</Text>
@@ -171,9 +200,10 @@ const GalleryPage = () => {
                         <Button
                           colorScheme="red"
                           size="sm"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             setDeletingId(photo._id);
-                            setIsDialogOpen(true);
+                            openDialog();
                           }}
                           leftIcon={<DeleteIcon />}
                         >
@@ -195,7 +225,8 @@ const GalleryPage = () => {
                     borderRadius="lg"
                     overflow="hidden"
                     boxShadow="md"
-                    bg={useColorModeValue("white", "gray.800")}
+                    bg={useColorModeValue("white", "gray.600")}
+                    cursor="pointer"
                   >
                     <Image
                       src={model.imageUrl}
@@ -203,6 +234,7 @@ const GalleryPage = () => {
                       objectFit="cover"
                       w="100%"
                       h="300px"
+                      onClick={() => openImage(model.imageUrl, model.caption)}
                     />
                     <Flex justify="space-between" align="center" px={4} py={2}>
                       <Text fontWeight="semibold">{model.caption}</Text>
@@ -210,9 +242,10 @@ const GalleryPage = () => {
                         <Button
                           colorScheme="red"
                           size="sm"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.stopPropagation();
                             setDeletingId(model._id);
-                            setIsDialogOpen(true);
+                            openDialog();
                           }}
                           leftIcon={<DeleteIcon />}
                         >
@@ -228,23 +261,74 @@ const GalleryPage = () => {
         </Tabs>
       )}
 
+      {/* Image Lightbox Modal */}
+      <Modal isOpen={isLightboxOpen} onClose={closeLightbox} size="full">
+        <ModalOverlay bg="blackAlpha.800" />
+        <ModalContent
+          bg="transparent"
+          boxShadow="none"
+          maxW="100vw"
+          maxH="100vh"
+        >
+          <ModalCloseButton
+            color="white"
+            bg="blackAlpha.600"
+            _hover={{ bg: "blackAlpha.700" }}
+            size="lg"
+          />
+          <Flex
+            w="100%"
+            h="100vh"
+            align="center"
+            justify="center"
+            onClick={closeLightbox}
+          >
+            <Image
+              src={selectedImage}
+              alt={selectedCaption}
+              objectFit="contain"
+              maxW="100%"
+              maxH="100%"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </Flex>
+          {selectedCaption && (
+            <Text
+              position="fixed"
+              bottom="4"
+              left="0"
+              right="0"
+              textAlign="center"
+              color="white"
+              bg="blackAlpha.700"
+              px={4}
+              py={2}
+              mx="auto"
+              maxW="80%"
+              borderRadius="md"
+            >
+              {selectedCaption}
+            </Text>
+          )}
+        </ModalContent>
+      </Modal>
+
+      {/* Delete Confirmation Dialog */}
       <AlertDialog
         isOpen={isDialogOpen}
         leastDestructiveRef={cancelRef}
-        onClose={() => setIsDialogOpen(false)}
+        onClose={closeDialog}
       >
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
               Delete Image
             </AlertDialogHeader>
-
             <AlertDialogBody>
               Are you sure? This action cannot be undone.
             </AlertDialogBody>
-
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={() => setIsDialogOpen(false)}>
+              <Button ref={cancelRef} onClick={closeDialog}>
                 Cancel
               </Button>
               <Button colorScheme="red" onClick={handleDelete} ml={3}>
