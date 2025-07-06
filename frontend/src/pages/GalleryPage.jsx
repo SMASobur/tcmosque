@@ -112,18 +112,42 @@ const GalleryPage = () => {
           <Spinner size="xl" color="blue.500" />
         </Box>
       ) : (
-        <Tabs variant="soft-rounded" align="center">
+        <Tabs variant="enclosed" colorScheme="orange">
           <TabList>
-            <Tab _selected={{ color: "white", bg: tabColor }} mx={2}>
+            <Tab
+              _selected={{
+                color: "white",
+                bg: tabColor,
+                borderColor: useColorModeValue("gray.200", "gray.600"),
+              }}
+              borderWidth="1px"
+              borderBottomWidth="0"
+              borderColor={useColorModeValue("gray.200", "gray.600")}
+            >
               Construction Process
             </Tab>
-            <Tab _selected={{ color: "white", bg: tabColor }} mx={2}>
+            <Tab
+              _selected={{
+                color: "white",
+                bg: tabColor,
+                borderColor: useColorModeValue("gray.200", "gray.600"),
+              }}
+              borderWidth="1px"
+              borderBottomWidth="0"
+              borderColor={useColorModeValue("gray.200", "gray.600")}
+            >
               3D Models
             </Tab>
           </TabList>
 
-          <TabPanels mt={6}>
-            <TabPanel>
+          <TabPanels
+            borderWidth="1px"
+            borderColor={useColorModeValue("gray.200", "gray.600")}
+            borderTopWidth="0"
+            borderRadius="0 0 8px 8px"
+            mt={0}
+          >
+            <TabPanel p={4}>
               <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
                 {processPhotos.map((photo) => (
                   <Box
@@ -132,6 +156,7 @@ const GalleryPage = () => {
                     borderRadius="lg"
                     overflow="hidden"
                     boxShadow="md"
+                    bg={useColorModeValue("white", "gray.800")}
                   >
                     <Image
                       src={photo.imageUrl}
@@ -144,11 +169,10 @@ const GalleryPage = () => {
                       <Text fontWeight="semibold">{photo.caption}</Text>
                       {user && (
                         <Button
-                          mt={2}
                           colorScheme="red"
                           size="sm"
                           onClick={() => {
-                            setDeletingId(photo._id); // or model._id
+                            setDeletingId(photo._id);
                             setIsDialogOpen(true);
                           }}
                           leftIcon={<DeleteIcon />}
@@ -162,7 +186,7 @@ const GalleryPage = () => {
               </SimpleGrid>
             </TabPanel>
 
-            <TabPanel>
+            <TabPanel p={4}>
               <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} spacing={8}>
                 {modelImages.map((model) => (
                   <Box
@@ -171,6 +195,7 @@ const GalleryPage = () => {
                     borderRadius="lg"
                     overflow="hidden"
                     boxShadow="md"
+                    bg={useColorModeValue("white", "gray.800")}
                   >
                     <Image
                       src={model.imageUrl}
@@ -179,18 +204,17 @@ const GalleryPage = () => {
                       w="100%"
                       h="300px"
                     />
-
                     <Flex justify="space-between" align="center" px={4} py={2}>
                       <Text fontWeight="semibold">{model.caption}</Text>
                       {user && (
                         <Button
-                          mt={2}
                           colorScheme="red"
                           size="sm"
                           onClick={() => {
                             setDeletingId(model._id);
                             setIsDialogOpen(true);
                           }}
+                          leftIcon={<DeleteIcon />}
                         >
                           Delete
                         </Button>
