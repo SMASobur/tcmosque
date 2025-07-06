@@ -39,109 +39,160 @@ const BottomNav = () => {
       right="0"
       bg={bgColor}
       p={2}
-      py="4"
       boxShadow="lg"
       zIndex="sticky"
       borderTop="1px"
       borderColor={useColorModeValue("gray.200", "gray.700")}
     >
-      <Flex justify="space-around">
-        <IconButton
+      <Flex justify="space-around" align="center">
+        <Flex
           as={RouterLink}
           to="/"
-          aria-label="Home"
-          icon={<FiHome />}
-          variant="ghost"
+          direction="column"
+          align="center"
+          p={1}
           color={isActive("/") ? activeColor : iconColor}
-          fontSize="20px"
-        />
-        <IconButton
-          as={RouterLink}
-          to="/finance"
-          aria-label="Finance"
-          icon={<FiPieChart />}
-          variant="ghost"
-          color={isActive("/finance") ? activeColor : iconColor}
-          fontSize="20px"
-        />
-        <IconButton
-          as={RouterLink}
-          to="/donations"
-          aria-label="Donations"
-          icon={<FaDonate />}
-          variant="ghost"
-          color={isActive("/donations") ? activeColor : iconColor}
-          fontSize="20px"
-        />
-        <IconButton
-          as={RouterLink}
-          to="/expenses"
-          aria-label="Expenses"
-          icon={<GiExpense />}
-          variant="ghost"
-          color={isActive("/expenses") ? activeColor : iconColor}
-          fontSize="20px"
-        />
-
-        <Menu>
-          <MenuButton
-            as={IconButton}
-            aria-label="Menu"
-            icon={<FiMenu />}
+        >
+          <IconButton
+            as={RouterLink}
+            to="/"
+            aria-label="Home"
+            icon={<FiHome />}
             variant="ghost"
-            color={iconColor}
+            color={isActive("/") ? activeColor : iconColor}
             fontSize="20px"
           />
-          <MenuList mb={2} placement="top">
-            {user ? (
-              <>
-                <Text alignItems="end" align="end" isTruncated maxW="120px">
-                  {user.name}
-                </Text>
-                <MenuItem
-                  icon={colorMode === "light" ? <IoMoon /> : <IoSunny />}
-                  onClick={toggleColorMode}
-                  closeOnSelect={false}
-                >
-                  {colorMode === "light" ? "Dark Mode" : "Light Mode"}
-                </MenuItem>
-                <MenuItem as={RouterLink} to="/gallery">
-                  📸 Gallery
-                </MenuItem>
-                <MenuItem as={RouterLink} to="/profile">
-                  👨‍🔧 Profile
-                </MenuItem>
-                <MenuItem as={RouterLink} to="/about">
-                  👨‍💻 Developer
-                </MenuItem>
-
-                {(user.role === "admin" || user.role === "superadmin") && (
-                  <MenuItem as={RouterLink} to="/admin">
-                    🛠 Admin Panel
+          <Text fontSize="xs" mt={1}>
+            Home
+          </Text>
+        </Flex>
+        <Flex
+          as={RouterLink}
+          to="/finance"
+          direction="column"
+          align="center"
+          p={1}
+          color={isActive("/finance") ? activeColor : iconColor}
+        >
+          <IconButton
+            as={RouterLink}
+            to="/finance"
+            aria-label="Finance"
+            icon={<FiPieChart />}
+            variant="ghost"
+            color={isActive("/finance") ? activeColor : iconColor}
+            fontSize="20px"
+          />{" "}
+          <Text fontSize="xs" mt={1}>
+            Finance
+          </Text>
+        </Flex>
+        <Flex
+          as={RouterLink}
+          to="/donations"
+          direction="column"
+          align="center"
+          p={1}
+          color={isActive("/donations") ? activeColor : iconColor}
+        >
+          <IconButton
+            as={RouterLink}
+            to="/donations"
+            aria-label="Donations"
+            icon={<FaDonate />}
+            variant="ghost"
+            color={isActive("/donations") ? activeColor : iconColor}
+            fontSize="20px"
+          />
+          <Text fontSize="xs" mt={1}>
+            Donations
+          </Text>
+        </Flex>
+        <Flex
+          as={RouterLink}
+          to="/expenses"
+          direction="column"
+          align="center"
+          p={1}
+          color={isActive("/expenses") ? activeColor : iconColor}
+        >
+          <IconButton
+            as={RouterLink}
+            to="/expenses"
+            aria-label="Expenses"
+            icon={<GiExpense />}
+            variant="ghost"
+            color={isActive("/expenses") ? activeColor : iconColor}
+            fontSize="20px"
+          />
+          <Text fontSize="xs" mt={1}>
+            Expenses
+          </Text>
+        </Flex>
+        <Flex direction="column" align="center" p={1}>
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              aria-label="Menu"
+              icon={<FiMenu />}
+              variant="ghost"
+              color={iconColor}
+              fontSize="20px"
+            />
+            <Text fontSize="xs" mt={1}>
+              More
+            </Text>
+            <MenuList mb={2} placement="top">
+              {user ? (
+                <>
+                  <Text alignItems="end" align="end" isTruncated maxW="120px">
+                    {user.name}
+                  </Text>
+                  <MenuItem
+                    icon={colorMode === "light" ? <IoMoon /> : <IoSunny />}
+                    onClick={toggleColorMode}
+                    closeOnSelect={false}
+                  >
+                    {colorMode === "light" ? "Dark Mode" : "Light Mode"}
                   </MenuItem>
-                )}
+                  <MenuItem as={RouterLink} to="/gallery">
+                    📸 Gallery
+                  </MenuItem>
+                  <MenuItem as={RouterLink} to="/profile">
+                    👨‍🔧 Profile
+                  </MenuItem>
+                  <MenuItem as={RouterLink} to="/about">
+                    👨‍💻 Developer
+                  </MenuItem>
 
-                <MenuItem onClick={handleLogout}>🚪 Logout</MenuItem>
-              </>
-            ) : (
-              <>
-                <MenuItem
-                  icon={colorMode === "light" ? <IoMoon /> : <IoSunny />}
-                  onClick={toggleColorMode}
-                  closeOnSelect={false}
-                >
-                  {colorMode === "light" ? "Dark Mode" : "Light Mode"}
-                </MenuItem>
-                <MenuItem as={RouterLink} to="/gallery">
-                  📸 Gallery
-                </MenuItem>
-                <MenuItem as={RouterLink} to="/login">
-                  🚪 Login
-                </MenuItem>
-              </>
-            )}
-          </MenuList>
-        </Menu>
+                  {(user.role === "admin" || user.role === "superadmin") && (
+                    <MenuItem as={RouterLink} to="/admin">
+                      🛠 Admin Panel
+                    </MenuItem>
+                  )}
+
+                  <MenuItem onClick={handleLogout}>🚪 Logout</MenuItem>
+                </>
+              ) : (
+                <>
+                  <MenuItem
+                    icon={colorMode === "light" ? <IoMoon /> : <IoSunny />}
+                    onClick={toggleColorMode}
+                    closeOnSelect={false}
+                  >
+                    {colorMode === "light" ? "Dark Mode" : "Light Mode"}
+                  </MenuItem>
+                  <MenuItem as={RouterLink} to="/gallery">
+                    📸 Gallery
+                  </MenuItem>
+                  <MenuItem as={RouterLink} to="/login">
+                    🚪 Login
+                  </MenuItem>
+                </>
+              )}
+            </MenuList>
+          </Menu>
+        </Flex>
       </Flex>
     </Box>
   );
